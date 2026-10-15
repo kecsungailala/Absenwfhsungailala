@@ -1,0 +1,16 @@
+{
+  "name": "Absensi WFH Kecamatan Sungai Lala",
+  "short_name": "Absensi WFH",
+  "description": "Presensi Digital Aparatur Kecamatan Sungai Lala",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b3a6e",
+  "theme_color": "#0b3a6e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

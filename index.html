@@ -4,7 +4,12 @@
 <base target="_top">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#0b1530">
+<meta name="theme-color" content="#0b3a6e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Absensi WFH">
 <title>Absensi WFH · Kecamatan Sungai Lala</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +19,7 @@
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" rel="stylesheet">
 <style>
 :root{
-  --ink:#0b1530;--ink2:#14275a;--pri:#2155e5;--pri-d:#1a44bd;--pri-l:#eaf0ff;
+  --ink:#0a2a52;--ink2:#0f3c73;--pri:#2155e5;--pri-d:#1a44bd;--pri-l:#eaf0ff;
   --gold:#d6a74a;--gold-l:#fbf3e2;--teal:#0f9f99;--teal-l:#dcf6f4;
   --ok:#15803d;--ok-l:#dcfce7;--wr:#b45309;--wr-l:#fef3c7;--er:#b91c1c;--er-l:#fee2e2;
   --bg:#f3f5fa;--card:#fff;--tx:#0f172a;--tx2:#4b5873;--mut:#94a3b8;--bd:#e5e9f2;
@@ -27,9 +32,9 @@ button{font-family:inherit}
 .ti{font-size:1.15em;vertical-align:-2px}
 
 /* ---------- Bar ---------- */
-.bar{position:sticky;top:0;z-index:20;background:rgba(11,21,48,.96);backdrop-filter:blur(8px);color:#fff}
+.bar{position:sticky;top:0;z-index:20;background:rgba(10,42,82,.97);backdrop-filter:blur(8px);color:#fff}
 .bar-in{max-width:1160px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--pri),#4f8bff 55%,var(--gold));display:grid;place-items:center;font-size:20px;color:#fff;flex:none;box-shadow:0 4px 14px rgba(33,85,229,.35)}
+.logo{width:40px;height:40px;border-radius:11px;flex:none;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
 .brand-t{font-weight:800;font-size:16px;line-height:1.1;letter-spacing:-.01em}.brand-s{font-size:12px;opacity:.65}
 .sp{flex:1}
 .chip-user{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:4px 4px 4px 12px;border-radius:30px;font-size:13px;cursor:pointer;border:0;color:#fff;font-weight:600}
@@ -77,7 +82,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.5}
 .pill.ok{background:var(--ok-l);color:#166534}.pill.wr{background:var(--wr-l);color:#92400e}.pill.er{background:var(--er-l);color:#991b1b}.pill.in{background:var(--pri-l);color:#1e3a8a}.pill.mu{background:#eef2f7;color:var(--tx2)}.pill.gd{background:var(--gold-l);color:#8a6418}
 
 /* ---------- Auth (halaman depan) ---------- */
-.auth{position:relative;min-height:100vh;overflow:hidden;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:28px 16px}
+.auth{position:relative;min-height:100vh;overflow:hidden;background:#071f3f;display:flex;align-items:center;justify-content:center;padding:28px 16px}
 .aurora span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:gerak 18s ease-in-out infinite alternate}
 .aurora .b1{width:520px;height:520px;background:#2155e5;left:-140px;top:-120px}
 .aurora .b2{width:420px;height:420px;background:#d6a74a;right:-120px;bottom:-140px;opacity:.35;animation-duration:22s}
@@ -90,6 +95,9 @@ textarea{min-height:130px;resize:vertical;line-height:1.5}
 .emblem:before{content:"";position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,var(--gold),transparent 40%,#4f8bff 60%,transparent 85%,var(--gold));animation:putar 6s linear infinite;-webkit-mask:radial-gradient(circle,transparent 60%,#000 61%);mask:radial-gradient(circle,transparent 60%,#000 61%)}
 .emblem div{position:absolute;inset:6px;border-radius:50%;background:linear-gradient(135deg,var(--pri),#4f8bff);display:grid;place-items:center;font-size:36px;box-shadow:0 10px 30px rgba(33,85,229,.45)}
 @keyframes putar{to{transform:rotate(360deg)}}
+.auth-logo{width:100%;max-width:420px;display:block;margin:0 auto;border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.08);animation:muncul .8s ease both,apung 6s ease-in-out 1s infinite}
+@keyframes muncul{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes apung{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .auth-title{font-size:26px;font-weight:800;letter-spacing:-.02em}
 .auth-sub{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:4px}
 .auth-clock{font-size:40px;font-weight:800;margin-top:14px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
@@ -103,7 +111,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.5}
 .steps .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#eef2f7;font-size:12px}
 .steps .on{color:var(--pri)}.steps .on .n{background:var(--pri);color:#fff}
 .steps .ln{flex:1;height:2px;background:var(--bd)}
-@media (prefers-reduced-motion:reduce){.aurora span,.emblem:before,.hero:before{animation:none}}
+@media (prefers-reduced-motion:reduce){.aurora span,.auth-logo,.hero:before{animation:none}}
 
 /* ---------- Home ---------- */
 .hero{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(135deg,var(--ink),var(--ink2));color:#fff;padding:22px;box-shadow:0 16px 40px rgba(11,21,48,.25)}
@@ -217,8 +225,9 @@ table.tbl{width:100%;border-collapse:collapse;min-width:760px;font-size:14px}
 .rpt-wrap{overflow-x:auto;margin-top:14px}
 #rpt{position:relative;background:#fff;width:210mm;max-width:100%;margin:0 auto;padding:14mm 14mm 18mm;box-shadow:var(--sh);color:#000;font-family:'Times New Roman',Times,serif;font-size:12pt;overflow:hidden}
 #rpt .wm{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#rpt .wm div{position:absolute;left:50%;top:50%;width:200%;transform:translate(-50%,-50%) rotate(-32deg);display:flex;flex-direction:column;gap:110px;align-items:center}
-#rpt .wm span{font-family:Arial,sans-serif;font-weight:800;font-size:40px;letter-spacing:6px;color:rgba(30,58,138,.085);white-space:nowrap}
+#rpt .wm div{position:absolute;left:50%;top:50%;width:260%;transform:translate(-50%,-50%) rotate(-30deg);display:flex;flex-direction:column;gap:26px;align-items:center}
+#rpt .wm span{font-family:Arial,sans-serif;font-weight:700;font-size:10.5px;letter-spacing:1.2px;color:rgba(30,58,138,.16);white-space:nowrap}
+#rpt .wm span:nth-child(even){margin-left:160px}
 #rpt>*:not(.wm){position:relative;z-index:1}
 .kop{border-bottom:3px double #000;padding-bottom:8px;margin-bottom:14px;text-align:center}
 .kop div:first-child{font-size:13pt;font-weight:bold}.kop div:nth-child(2){font-size:16pt;font-weight:bold}
@@ -240,7 +249,8 @@ table.t td:first-child{width:140px}
 .lamp{margin-top:10px;page-break-inside:avoid;break-inside:avoid}
 .lamp img{width:100%;border:1px solid #999;display:block}
 .lamp p{font-size:10pt;margin:4px 0 0;font-style:italic}
-.ttd{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;text-align:center;page-break-inside:avoid;break-inside:avoid}
+.ttd{display:flex;justify-content:flex-end;margin-top:26px;text-align:center;page-break-inside:avoid;break-inside:avoid}
+.ttd>div{min-width:260px}
 .ttd .nm2{margin-top:64px;font-weight:bold;text-decoration:underline}
 
 @page{size:A4;margin:12mm}
@@ -252,7 +262,7 @@ table.t td:first-child{width:140px}
   .rpt-wrap{margin:0}
   #rpt{width:auto;box-shadow:none;padding:0;overflow:visible}
   #rpt .wm{position:fixed}
-  #rpt .wm span{color:rgba(30,58,138,.08)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #rpt .wm span{color:rgba(30,58,138,.16)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 
 #loading{position:fixed;inset:0;background:rgba(11,21,48,.55);display:flex;align-items:center;justify-content:center;z-index:50}
@@ -270,7 +280,7 @@ table.t td:first-child{width:140px}
 <!-- ===== BAR ===== -->
 <div id="bar" class="bar hide">
   <div class="bar-in">
-    <div class="logo"><i class="ti ti-fingerprint"></i></div>
+    <img class="logo" src="icon-192.png" alt="Logo">
     <div><div class="brand-t">Absensi WFH</div><div class="brand-s">Kecamatan Sungai Lala</div></div>
     <div class="sp"></div>
     <button class="chip-user" onclick="bukaAkun()"><span id="barNama" class="hide-sm"></span><div class="ava" id="barAva">A</div></button>
@@ -284,9 +294,7 @@ table.t td:first-child{width:140px}
   <div class="gridbg"></div>
   <div class="auth-box">
     <div class="auth-head">
-      <div class="emblem"><div><i class="ti ti-fingerprint"></i></div></div>
-      <div class="auth-title">Absensi WFH</div>
-      <div class="auth-sub">Kecamatan Sungai Lala</div>
+      <img class="auth-logo" src="logo.png" alt="Absensi WFH Kantor Camat Sungai Lala">
       <div class="auth-clock" id="aClock">--:--:--</div>
       <div class="auth-date" id="aDate"></div>
     </div>
@@ -336,7 +344,7 @@ table.t td:first-child{width:140px}
         <div id="dMsg"></div>
       </div>
     </div>
-    <div class="auth-foot">© <span id="thn">2026</span> Kecamatan Sungai Lala</div>
+    <div class="auth-foot">© <span id="thn">2026</span> Tim Inovasi Kecamatan Sungai Lala</div>
   </div>
 </section>
 
@@ -1311,13 +1319,13 @@ async function muatLaporan(){
 
 function renderLaporan(L, lampiran){
   const M = L.masuk, P = L.pulang, U = L.user;
-  const wm = Array.from({length:14}, () => `<span>${esc(L.watermark)} &nbsp;•&nbsp; ${esc(L.watermark)}</span>`).join('');
+  const wmTeks = `${L.watermark} ${U.nip} ${String(U.nama).toUpperCase()} ${L.tgl}`;
+  const wm = Array.from({length:90}, () => `<span>${Array(7).fill(esc(wmTeks)).join(' &nbsp;&nbsp; ')}</span>`).join('');
   const lok = o => `${Number(o.lat).toFixed(6)}, ${Number(o.lng).toFixed(6)} (±${o.acc} m)`;
   const nTgl = tglPanjang(L.tgl, L.hari);
-  let no = 0;
-  const lamp = lampiran.length ? lampiran.map(a => a.imgs.length
-      ? a.imgs.map((src,i) => `<div class="lamp"><img src="${src}" alt=""><p>Lampiran ${++no}: ${esc(a.name)}${a.imgs.length>1?` — halaman ${i+1}`:''}</p></div>`).join('') + (a.catatan?`<p style="font-size:10pt;font-style:italic">${esc(a.catatan)}</p>`:'')
-      : `<div class="lamp"><p>Lampiran ${++no}: ${esc(a.name)} — ${esc(a.catatan)}</p></div>`).join('')
+    const lamp = lampiran.length ? lampiran.map(a => a.imgs.length
+      ? a.imgs.map(src => `<div class="lamp"><img src="${src}" alt=""></div>`).join('')
+      : `<div class="lamp"><p>${esc(a.name)} — ${esc(a.catatan)}</p></div>`).join('')
     : '<p><i>Belum ada output kerja (belum absen pulang).</i></p>';
   const ket = M.telat > 0 ? `Terlambat ${M.telat} menit (batas ${L.jadwal.batasTelat})` : 'Tepat waktu';
   $('rpt').innerHTML = `
@@ -1347,7 +1355,6 @@ function renderLaporan(L, lampiran){
     <div class="sec"><h3>III. Output kerja harian</h3><div class="teks">${esc(P ? P.uraian : '-')}</div></div>
     <div class="sec" style="page-break-inside:auto;break-inside:auto"><h3>IV. Lampiran output kerja</h3>${lamp}</div>
     <div class="ttd">
-      <div>Mengetahui,<br>Atasan Langsung<div class="nm2">(...................................)</div>NIP.</div>
       <div>${esc(L.tempat)}, ${esc(nTgl.split(', ')[1])}<br>Pegawai yang bersangkutan<div class="nm2">${esc(U.nama)}</div>NIP. ${esc(U.nip)}</div>
     </div>`;
   $('rpt').classList.remove('hide');
