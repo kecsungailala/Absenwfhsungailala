@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1b36;--pri:#2457e6;--pri-d:#1b44b8;--pri-l:#e8eefd;
+  --teal:#0ea5a0;--ok:#16a34a;--ok-l:#dcfce7;--wr:#d97706;--wr-l:#fef3c7;--er:#dc2626;--er-l:#fee2e2;
+  --bg:#f3f5fa;--card:#fff;--tx:#0f172a;--tx2:#475569;--mut:#94a3b8;--bd:#e2e8f0;
+  --r:14px;--sh:0 1px 2px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px}
+.hide{display:none!important}
+button{font-family:inherit}
+.ti{font-size:1.15em;vertical-align:-2px}
+
+.bar{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff}
+.bar-in{max-width:1120px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--pri),var(--teal));display:grid;place-items:center;font-size:20px;flex:none}
+.brand-t{font-weight:700;font-size:16px;line-height:1.1}.brand-s{font-size:12px;opacity:.7}
+.sp{flex:1}
+.chip-user{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:4px 4px 4px 12px;border-radius:30px;font-size:13px;cursor:pointer;border:0;color:#fff}
+.ava{width:32px;height:32px;border-radius:50%;background:var(--pri);display:grid;place-items:center;font-weight:700;font-size:12px;overflow:hidden;flex:none}
+.ava img{width:100%;height:100%;object-fit:cover}
+.ibtn{background:transparent;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:7px 10px;cursor:pointer}
+@media(max-width:560px){.hide-sm{display:none}.brand-s{display:none}}
+
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 40px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:20px}
+h1{font-size:22px;margin:0 0 4px;font-weight:800;letter-spacing:-.01em}
+h2{font-size:18px;margin:0 0 4px;font-weight:700}
+.sub{color:var(--tx2);font-size:14px;margin:0 0 16px}
+
+.f{margin-bottom:12px}
+.f label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+.inp{position:relative}
+.inp>.ti{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mut)}
+.inp .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--mut);cursor:pointer;padding:6px}
+input,textarea,select{width:100%;padding:12px;border:1.5px solid var(--bd);border-radius:11px;font-size:15px;font-family:inherit;background:#fff;color:var(--tx);outline:none;transition:.15s}
+.inp input{padding-left:38px}
+input:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 4px var(--pri-l)}
+textarea{min-height:130px;resize:vertical;line-height:1.5}
+.hintpw{font-size:12px;color:var(--tx2);margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.hintpw span{padding:2px 8px;border-radius:20px;background:#eef2f7}
+.hintpw span.ok{background:var(--ok-l);color:#166534}
+.grid2{display:grid;gap:0 14px}
+@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;border-radius:12px;border:0;font-size:15px;font-weight:700;cursor:pointer;transition:.15s}
+.btn:active{transform:scale(.985)}
+.btn-p{background:var(--pri);color:#fff}.btn-p:hover{background:var(--pri-d)}
+.btn-g{background:#eef2f7;color:var(--tx)}.btn-g:hover{background:#e3e8f0}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-er{background:var(--er-l);color:#991b1b}
+.btn-sm{padding:8px 12px;font-size:13px;width:auto;border-radius:10px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btns{display:grid;gap:10px;margin-top:14px}
+.link{background:none;border:0;color:var(--pri);font-weight:600;cursor:pointer;padding:0;font-size:14px}
+
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;font-size:14px;margin-top:12px;line-height:1.45}
+.alert.er{background:var(--er-l);color:#991b1b}.alert.ok{background:var(--ok-l);color:#166534}.alert.wr{background:var(--wr-l);color:#92400e}.alert.in{background:var(--pri-l);color:#1e3a8a}
+
+/* Auth */
+.auth{display:grid;min-height:100vh}
+@media(min-width:900px){.auth{grid-template-columns:1.05fr 1fr}}
+.hero{background:var(--navy);color:#fff;padding:28px 22px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-120px;bottom:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(36,87,230,.45),transparent 70%)}
+.hero h1{font-size:26px;margin:18px 0 8px}
+.hero p{opacity:.8;margin:0;line-height:1.6;max-width:440px}
+.feat{display:none;margin-top:28px;gap:14px}
+.feat div{display:flex;gap:12px;align-items:center;font-size:14px;opacity:.92}
+.feat i{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:19px}
+@media(min-width:900px){.hero{padding:56px 48px;display:flex;flex-direction:column;justify-content:center}.hero h1{font-size:34px}.feat{display:grid}}
+.auth-r{display:flex;align-items:flex-start;justify-content:center;padding:20px 16px 40px}
+@media(min-width:900px){.auth-r{align-items:center;padding:40px}}
+.auth-card{width:100%;max-width:520px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#eef2f7;border-radius:12px;padding:4px;margin-bottom:18px}
+.tab{border:0;background:transparent;padding:10px;border-radius:9px;font-weight:700;color:var(--tx2);cursor:pointer;font-size:14px}
+.tab.on{background:#fff;color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.steps{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--mut)}
+.steps .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#eef2f7;font-size:12px}
+.steps .on{color:var(--pri)}.steps .on .n{background:var(--pri);color:#fff}
+.steps .ln{flex:1;height:2px;background:var(--bd)}
+
+/* Home */
+.home{display:grid;gap:16px}
+@media(min-width:900px){.home{grid-template-columns:1.4fr 1fr}}
+.greet{background:var(--navy);color:#fff}
+.greet .sub{color:rgba(255,255,255,.75)}
+.who{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.who .ava{width:58px;height:58px;font-size:18px;border:2px solid rgba(255,255,255,.3)}
+.clock{font-size:44px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.date{opacity:.8;font-size:14px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.st{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px}
+.st small{opacity:.7;font-size:12px;display:block}.st b{font-size:20px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.pill.ok{background:var(--ok-l);color:#166534}.pill.wr{background:var(--wr-l);color:#92400e}.pill.er{background:var(--er-l);color:#991b1b}.pill.in{background:var(--pri-l);color:#1e3a8a}
+.act{display:flex;gap:14px;align-items:center;padding:14px;border:1.5px solid var(--bd);border-radius:14px;cursor:pointer;background:#fff;width:100%;text-align:left;transition:.15s;color:var(--tx)}
+.act:hover:not(:disabled){border-color:var(--pri);background:#fafcff}
+.act:disabled{opacity:.5;cursor:not-allowed}
+.act .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:23px;flex:none}
+.act b{display:block;font-size:15px}.act span{font-size:13px;color:var(--tx2)}
+.ic-b{background:var(--pri-l);color:var(--pri)}.ic-t{background:#d9f5f4;color:var(--teal)}.ic-w{background:var(--wr-l);color:var(--wr)}.ic-g{background:#eef2f7;color:var(--tx2)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+
+/* Scan */
+.scan{display:grid;gap:16px}
+@media(min-width:900px){.scan{grid-template-columns:1.35fr 1fr;align-items:start}}
+.cam{position:relative;background:#000;border-radius:18px;overflow:hidden;aspect-ratio:3/4;max-height:72vh;margin:0 auto;width:100%}
+.cam video,.cam canvas.ov,.cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cam video,.cam canvas.ov{transform:scaleX(-1)}
+.oval{position:absolute;left:50%;top:46%;height:66%;aspect-ratio:3/4;transform:translate(-50%,-50%);border:3px dashed rgba(255,255,255,.65);border-radius:50%;transition:border-color .2s;box-shadow:0 0 0 2000px rgba(0,0,0,.28)}
+.oval.ok{border:3px solid #22c55e}.oval.er{border-color:#f87171}
+.hint{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(11,27,54,.85);color:#fff;border-radius:12px;padding:10px 12px;font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px}
+.hint i{font-size:22px}
+.prog{position:absolute;left:0;top:0;height:4px;background:#22c55e;width:0;transition:width .1s}
+.badge-live{position:absolute;top:12px;left:12px;background:rgba(220,38,38,.9);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.cp{border:1.5px solid var(--bd);border-radius:12px;padding:9px 6px;text-align:center;font-size:12px;font-weight:600;color:var(--tx2);position:relative}
+.cp i{display:block;font-size:22px;margin-bottom:2px}
+.cp em{position:absolute;top:3px;right:6px;font-style:normal;font-size:10px;color:var(--er)}
+.cp.on{border-color:var(--pri);color:var(--pri);background:var(--pri-l)}
+.cp.done{border-color:var(--ok);color:var(--ok);background:var(--ok-l)}
+.cp.skip{border-style:dashed;color:var(--mut);background:#f8fafc}
+.chk{list-style:none;padding:0;margin:14px 0}
+.chk li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.chk li:last-child{border:0}
+.chk .d{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#eef2f7;color:var(--mut);flex:none}
+.chk li.ok .d{background:var(--ok-l);color:var(--ok)}
+.chk li.run .d{background:var(--pri-l);color:var(--pri)}
+.chk li.er .d{background:var(--er-l);color:var(--er)}
+.chk small{display:block;color:var(--tx2);font-size:12px;margin-top:2px;word-break:break-word}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.thumbs img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.profil-prev{display:flex;gap:12px;align-items:center;background:var(--ok-l);border-radius:12px;padding:10px;margin-top:10px;font-size:13px;color:#166534}
+.profil-prev img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #fff}
+
+/* Form setelah selfie */
+.pl{display:grid;gap:16px}
+@media(min-width:900px){.pl{grid-template-columns:340px 1fr;align-items:start}}
+.shot{width:100%;border-radius:14px;display:block}
+.drop{display:block;border:2px dashed #c7d2fe;background:#f8faff;border-radius:14px;padding:22px;text-align:center;cursor:pointer;color:var(--tx2)}
+.drop i{font-size:30px;color:var(--pri);display:block;margin-bottom:6px}
+.drop:hover{border-color:var(--pri)}
+.files{margin-top:10px;display:grid;gap:8px}
+.file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;font-size:13px}
+.file b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file .x{background:none;border:0;color:var(--er);cursor:pointer;font-size:18px}
+
+/* Admin */
+.urow{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);align-items:center}
+.urow .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+@media(min-width:760px){.urow{grid-template-columns:44px 1fr auto}.urow .acts{grid-column:auto}}
+.urow small{color:var(--tx2);font-size:12px;display:block}
+
+/* Laporan cetak */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.toolbar input{width:auto}
+.rpt-wrap{overflow-x:auto}
+#rpt{position:relative;background:#fff;width:210mm;max-width:100%;margin:0 auto;padding:14mm 14mm 18mm;box-shadow:var(--sh);color:#000;font-family:'Times New Roman',Times,serif;font-size:12pt;overflow:hidden}
+#rpt .wm{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#rpt .wm div{position:absolute;left:50%;top:50%;width:200%;transform:translate(-50%,-50%) rotate(-32deg);display:flex;flex-direction:column;gap:110px;align-items:center}
+#rpt .wm span{font-family:Arial,sans-serif;font-weight:800;font-size:40px;letter-spacing:6px;color:rgba(30,58,138,.085);white-space:nowrap}
+#rpt>*:not(.wm){position:relative;z-index:1}
+.kop{display:flex;align-items:center;gap:14px;border-bottom:3px double #000;padding-bottom:8px;margin-bottom:14px;text-align:center}
+.kop .t{flex:1}.kop .t div:first-child{font-size:13pt;font-weight:bold}.kop .t div:nth-child(2){font-size:16pt;font-weight:bold}
+.kop .t small{font-size:10pt}
+.rj{text-align:center;font-weight:bold;font-size:13pt;text-decoration:underline;margin:4px 0 2px}
+.rs{text-align:center;margin-bottom:14px}
+.idt{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.idt table{flex:1}
+.idt img{width:80px;height:100px;object-fit:cover;border:1px solid #000}
+table.t{border-collapse:collapse;width:100%}
+table.t td{padding:2px 4px;vertical-align:top}
+table.t td:first-child{width:130px}
+.sec{margin-top:12px;page-break-inside:avoid;break-inside:avoid}
+.sec h3{font-size:12pt;margin:0 0 6px;background:#e8eefd;padding:4px 8px;border-left:4px solid #1e3a8a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.duo figure{margin:0;border:1px solid #999;padding:6px;page-break-inside:avoid;break-inside:avoid}
+.duo img{width:100%;display:block}
+.duo figcaption{font-size:10pt;margin-top:4px;line-height:1.35}
+.teks{white-space:pre-wrap;border:1px solid #999;padding:8px 10px;min-height:50px;line-height:1.45}
+.lamp{margin-top:10px;page-break-inside:avoid;break-inside:avoid}
+.lamp img{width:100%;border:1px solid #999;display:block}
+.lamp p{font-size:10pt;margin:4px 0 0;font-style:italic}
+.ttd{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;text-align:center;page-break-inside:avoid;break-inside:avoid}
+.ttd .nm{margin-top:64px;font-weight:bold;text-decoration:underline}
+
+@page{size:A4;margin:12mm}
+@media print{
+  body{background:#fff}
+  body>*:not(#vCetak){display:none!important}
+  #vCetak{padding:0!important;max-width:none}
+  #vCetak .toolbar,#vCetak .noprint{display:none!important}
+  #rpt{width:auto;box-shadow:none;padding:0;overflow:visible}
+  #rpt .wm{position:fixed}
+  #rpt .wm span{color:rgba(30,58,138,.08)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+#loading{position:fixed;inset:0;background:rgba(11,27,54,.6);display:flex;align-items:center;justify-content:center;z-index:50}
+.ld{background:#fff;border-radius:16px;padding:22px 26px;display:flex;align-items:center;gap:14px;font-weight:600;max-width:86vw}
+.spin{width:26px;height:26px;border:3px solid var(--pri-l);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;z-index:60;box-shadow:var(--sh);max-width:92vw;display:flex;gap:8px;align-items:center}
+.foot{text-align:center;color:var(--mut);font-size:12px;margin-top:24px}
+</style>
+</head>
+<body>
+
+<!-- ===== APP BAR ===== -->
+<div id="bar" class="bar hide">
+  <div class="bar-in">
+    <div class="logo"><i class="ti ti-home-check"></i></div>
+    <div><div class="brand-t">Absensi WFH</div><div class="brand-s">Kecamatan Sungai Lala</div></div>
+    <div class="sp"></div>
+    <button class="chip-user" onclick="bukaAkun()"><span id="barNama" class="hide-sm"></span><div class="ava" id="barAva">A</div></button>
+    <button class="ibtn" onclick="logout()" title="Keluar"><i class="ti ti-logout"></i></button>
+  </div>
+</div>
+
+<!-- ===== AUTH ===== -->
+<section id="vAuth" class="auth">
+  <div class="hero">
+    <div style="display:flex;align-items:center;gap:12px;position:relative;z-index:1">
+      <div class="logo"><i class="ti ti-home-check"></i></div>
+      <div><div class="brand-t">Absensi WFH</div><div class="brand-s">Kecamatan Sungai Lala</div></div>
+    </div>
+    <div style="position:relative;z-index:1">
+      <h1>Presensi aman dengan verifikasi wajah &amp; lokasi</h1>
+      <p>Absen masuk dan pulang dengan selfie langsung dari kamera, titik koordinat GPS, rencana dan output kerja harian yang langsung bisa dicetak.</p>
+      <div class="feat">
+        <div><i class="ti ti-face-id"></i>Pengenalan wajah + uji gerak anti-foto palsu</div>
+        <div><i class="ti ti-map-pin"></i>Koordinat &amp; alamat tercetak di foto</div>
+        <div><i class="ti ti-printer"></i>Laporan harian siap cetak &amp; rekap bulanan</div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-r">
+    <div class="auth-card card">
+      <div class="tabs" id="tabs">
+        <button class="tab on" id="tabLogin" onclick="setTab('login')">Masuk</button>
+        <button class="tab" id="tabDaftar" onclick="setTab('daftar')">Daftar akun</button>
+      </div>
+
+      <!-- Login -->
+      <div id="pLogin">
+        <h2>Selamat datang</h2>
+        <p class="sub">Masuk dengan NIP dan password Anda.</p>
+        <div class="f"><label>NIP</label><div class="inp"><i class="ti ti-id-badge-2"></i><input id="lUser" inputmode="numeric" autocomplete="username" placeholder="NIP Anda"></div></div>
+        <div class="f"><label>Password</label><div class="inp"><i class="ti ti-lock"></i><input id="lPass" type="password" autocomplete="current-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"><button class="eye" type="button" onclick="lihat('lPass',this)"><i class="ti ti-eye"></i></button></div></div>
+        <button class="btn btn-p" onclick="login()"><i class="ti ti-login"></i>Masuk</button>
+        <div style="text-align:center;margin-top:14px"><button class="link" onclick="setTab('lupa')">Lupa password?</button></div>
+        <div id="lMsg"></div>
+      </div>
+
+      <!-- Lupa password -->
+      <div id="pLupa" class="hide">
+        <h2>Reset password</h2>
+        <p class="sub">Kode reset dikirim ke email yang terdaftar pada akun Anda.</p>
+        <div class="f"><label>NIP</label><div class="inp"><i class="ti ti-id-badge-2"></i><input id="rNip" inputmode="numeric" placeholder="NIP Anda"></div></div>
+        <button class="btn btn-g" onclick="kirimKode()"><i class="ti ti-mail-forward"></i>Kirim kode ke email</button>
+        <div id="rStep2" class="hide" style="margin-top:14px">
+          <div class="f"><label>Kode dari email (6 angka)</label><div class="inp"><i class="ti ti-key"></i><input id="rKode" inputmode="numeric" maxlength="6" placeholder="123456"></div></div>
+          <div class="f"><label>Password baru</label><div class="inp"><i class="ti ti-lock"></i><input id="rPass" type="password" oninput="cekPw('rPass','rHint')"><button class="eye" type="button" onclick="lihat('rPass',this)"><i class="ti ti-eye"></i></button></div><div class="hintpw" id="rHint"></div></div>
+          <div class="f"><label>Ulangi password baru</label><div class="inp"><i class="ti ti-lock-check"></i><input id="rPass2" type="password"></div></div>
+          <button class="btn btn-p" onclick="simpanReset()"><i class="ti ti-device-floppy"></i>Simpan password baru</button>
+        </div>
+        <div id="rMsg"></div>
+        <div style="text-align:center;margin-top:14px"><button class="link" onclick="setTab('login')"><i class="ti ti-arrow-left"></i> Kembali ke halaman masuk</button></div>
+        <div class="alert in"><i class="ti ti-info-circle"></i><div>Tidak punya akses ke email? Minta Admin induk mereset password Anda.</div></div>
+      </div>
+
+      <!-- Daftar -->
+      <div id="pDaftar" class="hide">
+        <div class="steps"><span class="on"><span class="n">1</span></span><span class="on">Data diri</span><span class="ln"></span><span class="n">2</span><span>Rekam wajah</span></div>
+        <div class="f"><label>Nama lengkap *</label><input id="dNama" placeholder="Nama lengkap beserta gelar"></div>
+        <div class="grid2">
+          <div class="f"><label>NIP * <small style="font-weight:500">(dipakai sebagai username)</small></label><input id="dNip" inputmode="numeric" placeholder="198701012010011001" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+          <div class="f"><label>Jabatan *</label><input id="dJab" placeholder="Jabatan saat ini"></div>
+        </div>
+        <div class="f"><label>Email * <small style="font-weight:500">(untuk reset password)</small></label><div class="inp"><i class="ti ti-mail"></i><input id="dEmail" type="email" inputmode="email" autocapitalize="none" placeholder="nama@email.com"></div></div>
+        <div class="grid2">
+          <div class="f"><label>Password *</label><div class="inp"><i class="ti ti-lock"></i><input id="dPass" type="password" oninput="cekPw('dPass','dHint')"><button class="eye" type="button" onclick="lihat('dPass',this)"><i class="ti ti-eye"></i></button></div></div>
+          <div class="f"><label>Ulangi password *</label><div class="inp"><i class="ti ti-lock-check"></i><input id="dPass2" type="password"></div></div>
+        </div>
+        <div class="hintpw" id="dHint" style="margin:-4px 0 6px"></div>
+        <div class="alert in"><i class="ti ti-face-id"></i><div>Berikutnya: rekam wajah. Wajib pose <b>depan</b> dan <b>senyum</b> (dipakai sebagai foto profil). Pose kiri, kanan, atas, bawah akan dicoba dan boleh dilewati bila sulit terbaca.</div></div>
+        <div class="btns"><button class="btn btn-p" onclick="lanjutRekam()"><i class="ti ti-camera"></i>Lanjut rekam wajah</button></div>
+        <div id="dMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOME ===== -->
+<section id="vHome" class="wrap hide">
+  <div class="home">
+    <div class="card greet">
+      <div class="who">
+        <div class="ava" id="hAva">A</div>
+        <div><div class="sub" id="hSapa" style="margin:0">Selamat pagi,</div><h1 id="hNama" style="color:#fff;margin:0">-</h1><div class="sub" id="hInfo" style="margin:2px 0 0"></div></div>
+      </div>
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="date" id="hTgl"></div>
+      <div class="stat">
+        <div class="st"><small>Absen masuk</small><b id="hMasuk">—</b></div>
+        <div class="st"><small>Absen pulang</small><b id="hPulang">—</b></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Presensi hari ini</h2>
+      <p class="sub">Selfie, verifikasi wajah, dan lokasi wajib aktif.</p>
+      <div id="wajahWarn" class="alert wr hide" style="margin:0 0 12px"><i class="ti ti-alert-triangle"></i><div>Wajah Anda belum terdaftar. Rekam wajah dulu sebelum bisa absen.</div></div>
+      <div class="btns" style="margin-top:0">
+        <button id="btnEnroll" class="act hide" onclick="mulaiScan('enroll')"><div class="ic ic-w"><i class="ti ti-face-id"></i></div><div><b>Rekam wajah</b><span>Depan + senyum (wajib)</span></div></button>
+        <button id="btnMasuk" class="act" onclick="mulaiScan('masuk')"><div class="ic ic-b"><i class="ti ti-login-2"></i></div><div><b>Absen masuk</b><span id="sMasuk">Selfie → rencana kerja hari ini</span></div></button>
+        <button id="btnPulang" class="act" onclick="mulaiScan('pulang')"><div class="ic ic-t"><i class="ti ti-logout-2"></i></div><div><b>Absen pulang</b><span id="sPulang">Selfie → output kerja → cetak laporan</span></div></button>
+        <button id="btnCetak" class="act" onclick="bukaCetak()"><div class="ic ic-g"><i class="ti ti-printer"></i></div><div><b>Cetak laporan harian</b><span>Foto pagi, rencana, foto sore, output kerja</span></div></button>
+      </div>
+      <div class="mini">
+        <button class="btn btn-g btn-sm" style="width:100%" onclick="bukaAkun()"><i class="ti ti-user-cog"></i>Akun saya</button>
+        <button id="btnAdmin" class="btn btn-g btn-sm hide" style="width:100%" onclick="bukaAdmin()"><i class="ti ti-shield-lock"></i>Admin</button>
+      </div>
+      <div id="hMsg"></div>
+    </div>
+  </div>
+  <div class="foot">Data tersimpan otomatis di Google Drive Kecamatan Sungai Lala</div>
+</section>
+
+<!-- ===== SCAN ===== -->
+<section id="vScan" class="wrap hide">
+  <div class="scan">
+    <div>
+      <div class="cam" id="cam">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="ov" class="ov"></canvas>
+        <img id="shotImg" class="hide" alt="Hasil foto">
+        <div class="oval" id="oval"></div>
+        <div class="prog" id="prog"></div>
+        <div class="badge-live" id="live">● LIVE</div>
+        <div class="hint" id="hint"><i class="ti ti-loader-2"></i><span id="hintT">Menyiapkan kamera…</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 id="scTitle">Rekam wajah</h2>
+      <p class="sub" id="scSub"></p>
+      <div id="scChips" class="chips hide"></div>
+      <div id="fmInfo" class="alert in hide" style="margin:0 0 10px"><i class="ti ti-camera"></i><div>Mode kamera HP: ambil foto langsung dengan kamera depan sesuai instruksi. Foto dari galeri tidak diterima.</div></div>
+      <button id="btnFoto" class="btn btn-p hide" onclick="$('inFoto').click()"><i class="ti ti-camera"></i><span>Ambil foto</span></button>
+      <input id="inFoto" type="file" accept="image/*" capture="user" class="hide" onchange="if(this.files[0])prosesFoto(this.files[0]);this.value=''">
+      <button id="scSkip" class="btn btn-g btn-sm hide" style="width:100%;margin-top:10px" onclick="lewatiPose()"><i class="ti ti-player-skip-forward"></i>Lewati pose ini (sulit terbaca)</button>
+      <ul id="scChk" class="chk hide">
+        <li id="c1"><span class="d"><i class="ti ti-face-id"></i></span><div>Wajah terdeteksi<small>Satu wajah, berada di dalam bingkai</small></div></li>
+        <li id="c2"><span class="d"><i class="ti ti-map-pin"></i></span><div>Lokasi GPS<small id="gpsT">Mencari lokasi…</small></div></li>
+        <li id="c3"><span class="d"><i class="ti ti-activity-heartbeat"></i></span><div>Uji gerak (liveness)<small id="liveT">Ikuti instruksi di layar</small></div></li>
+        <li id="c4"><span class="d"><i class="ti ti-shield-check"></i></span><div>Verifikasi wajah<small id="verT">Dicocokkan dengan data terdaftar</small></div></li>
+      </ul>
+      <div id="scThumbs" class="thumbs hide"></div>
+      <div id="scProfil" class="hide"></div>
+      <div id="scMsg"></div>
+      <div class="btns">
+        <button id="scSave" class="btn btn-ok hide"><i class="ti ti-device-floppy"></i><span>Simpan</span></button>
+        <button id="scRetry" class="btn btn-p hide" onclick="mulaiScan(SCAN.mode)"><i class="ti ti-refresh"></i>Ulangi</button>
+        <button class="btn btn-g" onclick="batalScan()"><i class="ti ti-arrow-left"></i>Kembali</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORM (rencana kerja / output kerja) ===== -->
+<section id="vForm" class="wrap hide">
+  <div class="pl">
+    <div class="card">
+      <div class="pill ok" style="margin-bottom:10px"><i class="ti ti-shield-check"></i><span id="fSkor">Wajah terverifikasi</span></div>
+      <img id="fShot" class="shot" alt="Selfie">
+      <div style="margin-top:12px;font-size:13px;color:var(--tx2);line-height:1.5"><i class="ti ti-map-pin"></i> <span id="fLok"></span></div>
+    </div>
+    <div class="card">
+      <h2 id="fJudul">Rencana kerja hari ini</h2>
+      <p class="sub" id="fSub"></p>
+      <div class="f"><label id="fLabel">Uraian *</label>
+        <textarea id="fTeks"></textarea></div>
+      <div id="fFileBox" class="f hide"><label>File output kerja * (gambar, PDF, Word, Excel, PowerPoint · maks 10 MB/file)</label>
+        <label class="drop" for="fFiles"><i class="ti ti-cloud-upload"></i><b>Pilih file</b><br><small>Bisa lebih dari satu · otomatis jadi gambar di laporan cetak</small></label>
+        <input id="fFiles" type="file" multiple class="hide" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="tambahFile()">
+        <div id="fList" class="files"></div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-p" id="fKirim" onclick="kirimForm()"><i class="ti ti-send"></i><span>Kirim</span></button>
+        <button class="btn btn-g" onclick="keHome()"><i class="ti ti-x"></i>Batal</button>
+      </div>
+      <div id="fMsg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CETAK LAPORAN ===== -->
+<section id="vCetak" class="wrap hide">
+  <div class="toolbar">
+    <button class="btn btn-g btn-sm" onclick="kembaliDariCetak()"><i class="ti ti-arrow-left"></i>Kembali</button>
+    <input type="date" id="cTgl" onchange="muatLaporan()">
+    <div class="sp"></div>
+    <button class="btn btn-p btn-sm" onclick="window.print()"><i class="ti ti-printer"></i>Cetak / Simpan PDF</button>
+  </div>
+  <div id="cMsg" class="noprint"></div>
+  <div class="rpt-wrap"><div id="rpt" class="hide"></div></div>
+</section>
+
+<!-- ===== AKUN SAYA ===== -->
+<section id="vAkun" class="wrap hide">
+  <div class="pl">
+    <div class="card" style="text-align:center">
+      <div class="ava" id="aAva" style="width:110px;height:110px;margin:0 auto 12px;font-size:32px">A</div>
+      <h2 id="aNama"></h2>
+      <div class="sub" id="aInfo" style="margin:0"></div>
+      <div style="margin-top:12px" id="aPeran"></div>
+    </div>
+    <div class="card">
+      <h2>Ganti password</h2>
+      <p class="sub">Kombinasi huruf, angka, dan tanda baca. Minimal 8 karakter.</p>
+      <div class="f"><label>Password lama</label><div class="inp"><i class="ti ti-lock"></i><input id="gLama" type="password"><button class="eye" type="button" onclick="lihat('gLama',this)"><i class="ti ti-eye"></i></button></div></div>
+      <div class="f"><label>Password baru</label><div class="inp"><i class="ti ti-lock"></i><input id="gBaru" type="password" oninput="cekPw('gBaru','gHint')"><button class="eye" type="button" onclick="lihat('gBaru',this)"><i class="ti ti-eye"></i></button></div><div class="hintpw" id="gHint"></div></div>
+      <div class="f"><label>Ulangi password baru</label><div class="inp"><i class="ti ti-lock-check"></i><input id="gBaru2" type="password"></div></div>
+      <div class="btns">
+        <button class="btn btn-p" onclick="gantiPw()"><i class="ti ti-device-floppy"></i>Simpan password</button>
+        <button class="btn btn-g" onclick="keHome()"><i class="ti ti-arrow-left"></i>Kembali</button>
+      </div>
+      <div id="gMsg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADMIN ===== -->
+<section id="vAdmin" class="wrap hide">
+  <div class="card">
+    <div class="toolbar" style="margin-bottom:10px">
+      <div><h2 style="margin:0">Admin induk</h2><div class="sub" style="margin:0">Kelola pegawai, reset password &amp; wajah, cetak laporan</div></div>
+      <div class="sp"></div>
+      <button class="btn btn-g btn-sm" onclick="keHome()"><i class="ti ti-arrow-left"></i>Kembali</button>
+    </div>
+    <div class="grid2">
+      <div class="f"><div class="inp"><i class="ti ti-search"></i><input id="admQ" placeholder="Cari nama / NIP" oninput="renderAdmin()"></div></div>
+      <div class="f"><input type="date" id="admTgl" title="Tanggal laporan"></div>
+    </div>
+    <div id="admMsg"></div>
+    <div id="admList"></div>
+  </div>
+</section>
+
+<div id="loading" class="hide"><div class="ld"><div class="spin"></div><span id="ldT">Memproses…</span></div></div>
+<div id="toast" class="hide"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/dist/face-api.js"></script>
+<script>
+/* ================= Utilitas ================= */
+const $ = id => document.getElementById(id);
+const HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const BLN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/model/';
+let TOKEN=null, USER=null, STATUS=null, PROFIL='', POS=null, ALAMAT='', STREAM=null, WATCH=null;
+let SCAN={}, REG=null, FORM=null, FILES=[], ADM=[], CETAK_NIP=null, CETAK_DARI='vHome';
+
+const VIEWS = ['vAuth','vHome','vScan','vForm','vCetak','vAkun','vAdmin'];
+function show(id){
+  VIEWS.forEach(v=>$(v).classList.toggle('hide', v!==id));
+  $('bar').classList.toggle('hide', id==='vAuth');
+  window.scrollTo(0,0);
+}
+function load(on, t){ $('ldT').textContent = t || 'Memproses…'; $('loading').classList.toggle('hide', !on); }
+function alertBox(id, t, type){
+  const ic = {er:'ti-alert-circle', ok:'ti-circle-check', wr:'ti-alert-triangle', in:'ti-info-circle'}[type||'er'];
+  $(id).innerHTML = t ? `<div class="alert ${type||'er'}"><i class="ti ${ic}"></i><div>${esc(t)}</div></div>` : '';
+}
+function toast(t){ const e=$('toast'); e.innerHTML='<i class="ti ti-circle-check"></i>'+esc(t); e.classList.remove('hide'); clearTimeout(e._t); e._t=setTimeout(()=>e.classList.add('hide'),4500); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function store(k,v){ try{ v==null?localStorage.removeItem(k):localStorage.setItem(k,v);}catch(e){} }
+function ambil(k){ try{ return localStorage.getItem(k);}catch(e){ return null; } }
+function getar(){ try{ navigator.vibrate && navigator.vibrate(60); }catch(e){} }
+const pad = n => String(n).padStart(2,'0');
+const isoKeTgl = v => { const [y,m,d] = v.split('-'); return `${d}-${m}-${y}`; };
+const tglHariIniIso = () => { const n=new Date(); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; };
+function lihat(id, btn){ const i=$(id); i.type = i.type==='password'?'text':'password'; btn.querySelector('i').className = 'ti ' + (i.type==='password'?'ti-eye':'ti-eye-off'); }
+const jsq = s => esc(String(s==null?'':s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
+function inisial(n){ return String(n||'?').split(/\s+/).slice(0,2).map(s=>s[0]).join('').toUpperCase(); }
+function setAva(el, foto, nama){ el.innerHTML = foto ? `<img src="${foto}" alt="">` : esc(inisial(nama)); }
+
+/* Bila halaman ini di-hosting di luar Apps Script (GitHub Pages, dll), isi URL Web App (…/exec) di sini */
+const API_URL = 'https://script.google.com/macros/s/AKfycbxBHP9yY3-6N9Y4Uf9Ggq4rcjn4Ytx3BHBwFjwAEWX-lvt5pd9KynHR5sEBzYfJjRHoDA/exec';
+function api(fn, ...args){
+  if (window.google && google.script && google.script.run){
+    return new Promise((res, rej) => {
+      google.script.run.withSuccessHandler(res)
+        .withFailureHandler(e => rej(e && e.message ? e.message.replace(/^Error:\s*/,'') : String(e)))[fn](...args);
+    });
+  }
+  if (!API_URL) return Promise.reject('API_URL belum diisi di Index.html.');
+  return fetch(API_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({fn, args})})
+    .then(r => r.json())
+    .then(j => { if (!j.ok) throw j.error; return j.data; })
+    .catch(e => { throw (typeof e === 'string') ? e : 'Koneksi ke server gagal. Periksa internet lalu coba lagi.'; });
+}
+
+/* ================= Password ================= */
+const ATURAN = [
+  ['8+ karakter', p => p.length >= 8], ['huruf', p => /[A-Za-z]/.test(p)],
+  ['angka', p => /\d/.test(p)], ['tanda baca', p => /[^A-Za-z0-9\s]/.test(p)]
+];
+function cekPw(inp, box){ const p=$(inp).value; $(box).innerHTML = ATURAN.map(([t,f])=>`<span class="${f(p)?'ok':''}">${f(p)?'✓':'•'} ${t}</span>`).join(''); }
+function pwValid(p){ return ATURAN.every(([,f])=>f(p)); }
+['dHint','rHint','gHint'].forEach(b=>{ const i={dHint:'dPass',rHint:'rPass',gHint:'gBaru'}[b]; cekPw(i,b); });
+
+/* ================= Auth ================= */
+function setTab(t){
+  $('tabLogin').classList.toggle('on', t==='login'); $('tabDaftar').classList.toggle('on', t==='daftar');
+  $('pLogin').classList.toggle('hide', t!=='login'); $('pDaftar').classList.toggle('hide', t!=='daftar');
+  $('pLupa').classList.toggle('hide', t!=='lupa'); $('tabs').classList.toggle('hide', t==='lupa');
+  ['lMsg','dMsg','rMsg'].forEach(i=>alertBox(i,''));
+  if (t==='lupa'){ $('rNip').value = $('lUser').value; $('rStep2').classList.add('hide'); }
+}
+
+async function login(){
+  alertBox('lMsg','');
+  if (!$('lUser').value.trim() || !$('lPass').value){ alertBox('lMsg','Isi NIP dan password.'); return; }
+  load(true,'Memeriksa akun…');
+  try{
+    const r = await api('loginUser', $('lUser').value, $('lPass').value);
+    TOKEN = r.token; store('wfh_token', TOKEN); $('lPass').value='';
+    PROFIL = r.profil || '';
+    setHome(r.user, r.status);
+    siapkanModel().catch(()=>{});
+  }catch(e){ alertBox('lMsg', e); } finally{ load(false); }
+}
+
+async function kirimKode(){
+  alertBox('rMsg','');
+  const nip = $('rNip').value.trim();
+  if (!nip) return alertBox('rMsg','Isi NIP.');
+  load(true,'Mengirim kode…');
+  try{ const t = await api('mintaResetPassword', nip); alertBox('rMsg', t, 'ok'); $('rStep2').classList.remove('hide'); $('rKode').focus(); }
+  catch(e){ alertBox('rMsg', e); } finally{ load(false); }
+}
+
+async function simpanReset(){
+  alertBox('rMsg','');
+  const p = $('rPass').value;
+  if (!/^\d{6}$/.test($('rKode').value.trim())) return alertBox('rMsg','Kode harus 6 angka.');
+  if (!pwValid(p)) return alertBox('rMsg','Password belum memenuhi syarat.');
+  if (p !== $('rPass2').value) return alertBox('rMsg','Ulangi password tidak sama.');
+  load(true);
+  try{
+    const t = await api('resetPasswordKode', $('rNip').value.trim(), $('rKode').value.trim(), p);
+    $('lUser').value = $('rNip').value.trim(); ['rKode','rPass','rPass2'].forEach(i=>$(i).value='');
+    setTab('login'); alertBox('lMsg', t, 'ok');
+  }catch(e){ alertBox('rMsg', e); } finally{ load(false); }
+}
+
+function lanjutRekam(){
+  alertBox('dMsg','');
+  const d = {nama:$('dNama').value.trim(), nip:$('dNip').value.trim(), jabatan:$('dJab').value.trim(),
+             email:$('dEmail').value.trim().toLowerCase(), password:$('dPass').value};
+  if (!d.nama || !d.nip || !d.jabatan || !d.email || !d.password) return alertBox('dMsg','Lengkapi semua kolom bertanda *.');
+  if (!/^\d{8,20}$/.test(d.nip)) return alertBox('dMsg','NIP hanya angka (8–20 digit).');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return alertBox('dMsg','Format email tidak valid.');
+  if (!pwValid(d.password)) return alertBox('dMsg','Password wajib kombinasi huruf, angka, dan tanda baca (min. 8 karakter).');
+  if (d.password !== $('dPass2').value) return alertBox('dMsg','Ulangi password tidak sama.');
+  REG = d;
+  mulaiScan('daftar');
+}
+
+function logout(){
+  if (TOKEN) api('logoutUser', TOKEN).catch(()=>{});
+  TOKEN=null; USER=null; PROFIL=''; store('wfh_token', null); stopScan();
+  setTab('login'); show('vAuth');
+}
+
+/* ================= Home ================= */
+function setHome(user, status){
+  USER = user; STATUS = status;
+  setAva($('barAva'), PROFIL, user.nama); setAva($('hAva'), PROFIL, user.nama);
+  $('barNama').textContent = user.nama;
+  $('hNama').textContent = user.nama;
+  $('hInfo').textContent = [user.jabatan, 'NIP ' + user.nip].filter(Boolean).join(' · ');
+  $('hMasuk').textContent = status.masuk ? status.masuk.slice(0,5) : '—';
+  $('hPulang').textContent = status.pulang ? status.pulang.slice(0,5) : '—';
+  $('wajahWarn').classList.toggle('hide', !!user.wajah);
+  $('btnEnroll').classList.toggle('hide', !!user.wajah);
+  $('btnAdmin').classList.toggle('hide', user.peran !== 'Admin');
+  $('btnMasuk').disabled = !user.wajah || !!status.masuk;
+  $('btnPulang').disabled = !user.wajah || !status.masuk || !!status.pulang;
+  $('btnCetak').disabled = !status.masuk;
+  $('sMasuk').textContent = status.masuk ? 'Tercatat pukul ' + status.masuk : 'Selfie → rencana kerja hari ini';
+  $('sPulang').textContent = status.pulang ? 'Tercatat pukul ' + status.pulang : (status.masuk ? 'Selfie → output kerja → cetak laporan' : 'Absen masuk terlebih dahulu');
+  alertBox('hMsg', status.pulang ? 'Presensi hari ini sudah lengkap. Terima kasih!' : '', 'ok');
+  keHome();
+}
+function keHome(){ show('vHome'); }
+
+setInterval(() => {
+  const n = new Date();
+  $('clock').textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+  $('hTgl').textContent = `${HARI[n.getDay()]}, ${n.getDate()} ${BLN[n.getMonth()]} ${n.getFullYear()}`;
+  const h = n.getHours();
+  $('hSapa').textContent = (h<11?'Selamat pagi':h<15?'Selamat siang':h<18?'Selamat sore':'Selamat malam') + ',';
+}, 1000);
+
+/* ================= Mesin wajah ================= */
+let MODEL = null;
+function siapkanModel(){
+  if (!MODEL) MODEL = (async () => {
+    if (typeof faceapi === 'undefined') throw new Error('Modul pengenal wajah gagal dimuat. Periksa koneksi internet.');
+    if (faceapi.tf){ try{ await faceapi.tf.setBackend('webgl'); }catch(e){} await faceapi.tf.ready(); }
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
+    ]);
+  })().catch(e => { MODEL = null; throw e; });
+  return MODEL;
+}
+const OPT  = () => new faceapi.TinyFaceDetectorOptions({inputSize: 320, scoreThreshold: 0.4});
+const OPT2 = () => new faceapi.TinyFaceDetectorOptions({inputSize: 416, scoreThreshold: 0.35});
+
+function avgY(p,a,b){ let s=0; for(let i=a;i<=b;i++) s+=p[i].y; return s/(b-a+1); }
+function ukurPose(lm){
+  const p = lm.positions, jl=p[0], jr=p[16], nose=p[30];
+  const eyeY = (avgY(p,36,41)+avgY(p,42,47))/2, mouthY = avgY(p,48,59);
+  return { yaw:(nose.x-jl.x)/(jr.x-jl.x), pitch:(nose.y-eyeY)/(mouthY-eyeY) };
+}
+
+/* Gerakan (arah = yang dilihat pengguna di layar cermin). Ambang sengaja longgar. */
+const POSE = {
+  depan:  {key:'depan',  nama:'Depan',  label:'Hadap lurus ke kamera', icon:'ti-user', wajib:true, cek:(m)=>Math.abs(m.yaw-0.5)<0.10},
+  senyum: {key:'senyum', nama:'Senyum', label:'Tersenyum lebar', icon:'ti-mood-smile', wajib:true, cek:(m,b,e)=>e.happy>0.6 && Math.abs(m.yaw-b.yaw)<0.12},
+  kiri:   {key:'kiri',   nama:'Kiri',   label:'Tengok sedikit ke kiri', icon:'ti-arrow-left', cek:(m,b)=>m.yaw > b.yaw+0.10},
+  kanan:  {key:'kanan',  nama:'Kanan',  label:'Tengok sedikit ke kanan', icon:'ti-arrow-right', cek:(m,b)=>m.yaw < b.yaw-0.10},
+  atas:   {key:'atas',   nama:'Atas',   label:'Dongakkan kepala sedikit', icon:'ti-arrow-up', cek:(m,b)=>m.pitch < b.pitch-0.07 && Math.abs(m.yaw-b.yaw)<0.12},
+  bawah:  {key:'bawah',  nama:'Bawah',  label:'Tundukkan kepala sedikit', icon:'ti-arrow-down', cek:(m,b)=>m.pitch > b.pitch+0.07 && Math.abs(m.yaw-b.yaw)<0.12}
+};
+const AKHIR = {key:'akhir', label:'Kembali hadap lurus — foto diambil otomatis', icon:'ti-camera', final:true,
+  cek:(m,b,e)=>Math.abs(m.yaw-b.yaw)<0.08 && Math.abs(m.pitch-b.pitch)<0.10 && e.happy<0.85};
+
+function langkahAbsen(){
+  const pool = ['senyum','kiri','kanan'].sort(()=>Math.random()-0.5);
+  return {steps:[POSE.depan, Object.assign({tantangan:true}, POSE[pool[0]]), AKHIR], pool};
+}
+
+/* Mode foto (kamera HP bawaan) — dipakai bila kamera live diblokir. Arah kiri/kanan disatukan
+   karena sebagian HP menyimpan selfie dalam keadaan dicerminkan. */
+const FOTO = {
+  depan:   {key:'depan',   nama:'Depan',   label:'Foto wajah menghadap lurus', icon:'ti-user', wajib:true, cek:(m)=>Math.abs(m.yaw-0.5)<0.13},
+  senyum:  {key:'senyum',  nama:'Senyum',  label:'Foto sambil tersenyum lebar', icon:'ti-mood-smile', wajib:true, cek:(m,b,e)=>e.happy>0.55},
+  samping: {key:'samping', nama:'Samping', label:'Foto menengok ke samping (kiri atau kanan)', icon:'ti-arrows-left-right', cek:(m,b)=>Math.abs(m.yaw-b.yaw)>0.10}
+};
+function langkahFoto(absen){
+  if (!absen) return [FOTO.depan, FOTO.senyum, FOTO.samping];
+  return [FOTO.depan, Object.assign({tantangan:true}, Math.random()<0.5 ? FOTO.senyum : FOTO.samping)];
+}
+function kameraDiblokir(){
+  try{ const fp = document.permissionsPolicy || document.featurePolicy; return !!fp && fp.allowsFeature('camera') === false; }
+  catch(e){ return false; }
+}
+
+/* ================= Kamera & GPS ================= */
+async function bukaKamera(){
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('Peramban tidak mendukung kamera. Gunakan Chrome / Safari versi terbaru.');
+  try{
+    STREAM = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user', width:{ideal:960}, height:{ideal:720}}, audio:false});
+  }catch(e){
+    if (e.name==='NotAllowedError') throw new Error('Akses kamera ditolak. Izinkan kamera di pengaturan peramban lalu coba lagi.');
+    if (e.name==='NotFoundError') throw new Error('Kamera tidak ditemukan pada perangkat ini.');
+    throw new Error('Kamera tidak bisa dibuka: ' + e.message);
+  }
+  const v = $('video'); v.srcObject = STREAM;
+  await new Promise(r => { if (v.readyState >= 1) r(); else v.onloadedmetadata = r; });
+  await v.play().catch(()=>{});
+  $('cam').style.aspectRatio = v.videoWidth + '/' + v.videoHeight;
+  $('ov').width = v.videoWidth; $('ov').height = v.videoHeight;
+}
+
+function mulaiGPS(){
+  POS = null; ALAMAT = '';
+  setChk('c2','run'); $('gpsT').textContent = 'Mencari lokasi…';
+  if (!navigator.geolocation){ setChk('c2','er'); $('gpsT').textContent='Perangkat tidak mendukung GPS.'; return; }
+  WATCH = navigator.geolocation.watchPosition(p => {
+    const first = !POS;
+    POS = {lat:p.coords.latitude, lng:p.coords.longitude, acc:p.coords.accuracy};
+    setChk('c2','ok');
+    $('gpsT').textContent = `${POS.lat.toFixed(6)}, ${POS.lng.toFixed(6)} (±${Math.round(POS.acc)} m)` + (ALAMAT ? ' · ' + ALAMAT : '');
+    if (first) api('getAlamat', POS.lat, POS.lng).then(a => { ALAMAT = a || ''; if (ALAMAT) $('gpsT').textContent += ' · ' + ALAMAT; }).catch(()=>{});
+  }, err => {
+    setChk('c2','er');
+    $('gpsT').textContent = 'Lokasi wajib aktif. Nyalakan GPS dan izinkan akses lokasi. (' + err.message + ')';
+  }, {enableHighAccuracy:true, maximumAge:0, timeout:20000});
+}
+
+function stopScan(){
+  SCAN.aktif = false; clearTimeout(SCAN.timer);
+  if (STREAM){ STREAM.getTracks().forEach(t=>t.stop()); STREAM=null; }
+  if (WATCH!=null && navigator.geolocation){ navigator.geolocation.clearWatch(WATCH); WATCH=null; }
+}
+function setChk(id, st){ $(id).className = st || ''; }
+function setHint(t, icon){ $('hintT').textContent = t; $('hint').querySelector('i').className = 'ti ' + (icon||'ti-info-circle'); }
+
+/* ================= Alur scan ================= */
+async function mulaiScan(mode){
+  stopScan();
+  const absen = mode==='masuk' || mode==='pulang';
+  const la = absen ? langkahAbsen() : null;
+  SCAN = {mode, absen, steps: absen ? la.steps : ['depan','senyum','kiri','kanan','atas','bawah'].map(k=>POSE[k]),
+          pool: la ? la.pool : [], poolIdx: 0, idx:0, hold:0, base:null, busy:false, aktif:false,
+          descs:[], fotos:[], hasil:{}, profil:null, foto:null, desc:null, mulai:Date.now(), gagalDeteksi:0};
+  $('scTitle').textContent = {daftar:'Rekam wajah', enroll:'Rekam wajah', masuk:'Absen masuk', pulang:'Absen pulang'}[mode];
+  $('scSub').textContent = absen ? 'Ikuti gerakan di layar. Foto diambil otomatis setelah wajah dan lokasi valid.'
+                                 : 'Pose depan & senyum wajib. Pose lain dicoba otomatis dan boleh dilewati bila sulit terbaca.';
+  $('scChips').classList.toggle('hide', absen); $('scChk').classList.toggle('hide', !absen);
+  ['scThumbs','scProfil','scSave','scRetry','scSkip','btnFoto','fmInfo'].forEach(i=>$(i).classList.add('hide'));
+  $('scThumbs').innerHTML=''; $('scProfil').innerHTML='';
+  $('shotImg').classList.add('hide'); $('video').classList.remove('hide'); $('ov').classList.remove('hide');
+  $('oval').className='oval'; $('live').classList.remove('hide'); $('prog').style.width='0';
+  ['c1','c2','c3','c4'].forEach(c=>setChk(c,'')); $('liveT').textContent='Ikuti instruksi di layar'; $('verT').textContent='Dicocokkan dengan data terdaftar';
+  alertBox('scMsg','');
+  renderChips();
+  show('vScan');
+  let pakaiFoto = kameraDiblokir();
+  try{
+    if (!pakaiFoto){
+      setHint('Menyiapkan kamera…','ti-loader-2');
+      try{ await bukaKamera(); }
+      catch(e){ if (/ditolak|tidak bisa dibuka/i.test(e.message)) pakaiFoto = true; else throw e; }
+    }
+    if (absen) mulaiGPS();
+    setHint('Memuat pengenal wajah…','ti-loader-2');
+    await siapkanModel();
+  }catch(e){
+    setHint('Tidak dapat memulai','ti-alert-triangle');
+    alertBox('scMsg', e.message || e); $('scRetry').classList.remove('hide'); stopScan(); return;
+  }
+  if (pakaiFoto) return mulaiModeFoto();
+  SCAN.aktif = true; SCAN.mulai = Date.now();
+  loop();
+}
+
+function mulaiModeFoto(){
+  SCAN.fotoMode = true;
+  SCAN.steps = langkahFoto(SCAN.absen);
+  SCAN.idx = 0;
+  if (STREAM){ STREAM.getTracks().forEach(t=>t.stop()); STREAM = null; }
+  $('video').classList.add('hide'); $('ov').classList.add('hide'); $('live').classList.add('hide');
+  $('oval').className = 'oval hide';
+  $('fmInfo').classList.remove('hide'); $('btnFoto').classList.remove('hide');
+  $('scSub').textContent = SCAN.absen ? 'Ambil 2 foto selfie sesuai instruksi. Foto pertama dicetak dengan koordinat lokasi.'
+                                      : 'Foto depan & senyum wajib. Foto samping disarankan, boleh dilewati.';
+  renderChips();
+}
+
+function muatGambar(file){
+  return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('Foto tidak bisa dibaca.')); i.src = URL.createObjectURL(file); });
+}
+
+async function prosesFoto(file){
+  const step = SCAN.steps[SCAN.idx];
+  if (!step) return;
+  alertBox('scMsg','');
+  if (file.lastModified && Date.now() - file.lastModified > 3*60*1000)
+    return alertBox('scMsg','Gunakan foto yang baru diambil dari kamera, bukan dari galeri.');
+  if (SCAN.absen && SCAN.idx === 0 && !POS) return alertBox('scMsg','Tunggu sampai lokasi GPS ditemukan, lalu ambil foto lagi.');
+  load(true,'Membaca wajah…');
+  try{
+    const img = await muatGambar(file);
+    const W = img.naturalWidth, H = img.naturalHeight;
+    const res = await faceapi.detectAllFaces(img, OPT2()).withFaceLandmarks().withFaceExpressions().withFaceDescriptors();
+    if (!res.length) throw new Error('Wajah tidak terdeteksi. Pastikan wajah terang, tidak tertutup, dan memenuhi layar.');
+    if (res.length > 1) throw new Error('Terdeteksi lebih dari satu wajah. Ulangi foto sendirian.');
+    const d = res[0];
+    if (d.detection.box.width < W*0.15) throw new Error('Wajah terlalu kecil. Dekatkan kamera ke wajah.');
+    const m = ukurPose(d.landmarks), b = SCAN.base || m;
+    if (!step.cek(m, b, d.expressions)) throw new Error('Foto belum sesuai instruksi: ' + step.label.toLowerCase() + '.');
+    const desc = Array.from(d.descriptor).map(x => +x.toFixed(5));
+    if (SCAN.prevDesc && faceapi.euclideanDistance(desc, SCAN.prevDesc) > 0.6)
+      throw new Error('Wajah berbeda dengan foto sebelumnya. Ulangi dengan orang yang sama.');
+
+    if (!SCAN.absen){
+      SCAN.descs.push(desc);
+      SCAN.fotos.push({pose: step.key, data: gambarKeCanvas(img, W, H, 480, false).c.toDataURL('image/jpeg', 0.8)});
+      if (step.key === 'senyum') SCAN.profil = potongProfil(img, W, H, d.detection.box, false);
+      SCAN.hasil[step.key] = 'ok';
+    } else if (SCAN.idx === 0){
+      SCAN.desc = desc;
+      const s = gambarKeCanvas(img, W, H, 1080, false);
+      stempel(s.x, s.w, s.h, SCAN.mode==='masuk' ? 'ABSEN MASUK WFH' : 'ABSEN PULANG WFH');
+      SCAN.foto = s.c.toDataURL('image/jpeg', 0.82);
+      setChk('c1','ok');
+    }
+    if (!SCAN.base) SCAN.base = m;
+    SCAN.prevDesc = desc;
+    $('shotImg').src = img.src; $('shotImg').classList.remove('hide');
+    getar();
+    majuLangkah();
+  }catch(e){ alertBox('scMsg', e.message || e); }
+  finally{ load(false); }
+}
+
+function renderChips(){
+  if (SCAN.fotoMode){
+    const st = SCAN.steps[SCAN.idx];
+    if (st){ $('btnFoto').querySelector('span').textContent = 'Ambil foto: ' + st.nama.toLowerCase(); setHint(st.label, st.icon); }
+    else { $('btnFoto').classList.add('hide'); $('fmInfo').classList.add('hide'); }
+  }
+  if (SCAN.absen){
+    const st = SCAN.steps[1];
+    if (SCAN.idx===1){ setChk('c3','run'); $('liveT').textContent = 'Gerakan: ' + st.label.toLowerCase(); }
+    if (SCAN.idx>=2){ setChk('c3','ok'); $('liveT').textContent = 'Lolos uji gerak'; }
+    return;
+  }
+  $('scChips').innerHTML = SCAN.steps.map((s,i)=>{
+    const h = SCAN.hasil[s.key];
+    const cls = h==='ok' ? 'done' : h==='skip' ? 'skip' : i===SCAN.idx ? 'on' : '';
+    return `<div class="cp ${cls}">${s.wajib?'<em>wajib</em>':''}<i class="ti ${h==='ok'?'ti-circle-check':h==='skip'?'ti-player-skip-forward':s.icon}"></i>${s.nama}</div>`;
+  }).join('');
+  const st = SCAN.steps[SCAN.idx];
+  $('scSkip').classList.toggle('hide', !st || st.wajib);
+}
+
+const HOLD = 4, BATAS_POSE = 12000, BATAS_TANTANGAN = 9000;
+async function loop(){
+  if (!SCAN.aktif) return;
+  const v = $('video');
+  try{
+    if (v.readyState >= 2 && !SCAN.busy){
+      const res = await faceapi.detectAllFaces(v, OPT()).withFaceLandmarks().withFaceExpressions();
+      if (SCAN.aktif) await olah(res);
+    }
+  }catch(e){ console.error(e); }
+  if (SCAN.aktif) SCAN.timer = setTimeout(loop, 60);
+}
+
+function gambarKotak(det, ok){
+  const c = $('ov'), x = c.getContext('2d');
+  x.clearRect(0,0,c.width,c.height);
+  if (!det) return;
+  const b = det.detection.box, L = Math.min(b.width,b.height)*0.22;
+  x.lineWidth = Math.max(3, c.width/220); x.strokeStyle = ok ? '#22c55e' : '#ffffff';
+  [[b.x,b.y,1,1],[b.x+b.width,b.y,-1,1],[b.x,b.y+b.height,1,-1],[b.x+b.width,b.y+b.height,-1,-1]].forEach(([px,py,dx,dy])=>{
+    x.beginPath(); x.moveTo(px, py+dy*L); x.lineTo(px, py); x.lineTo(px+dx*L, py); x.stroke();
+  });
+}
+
+function lewatiPose(){
+  const st = SCAN.steps[SCAN.idx];
+  if (!st || st.wajib) return;
+  SCAN.hasil[st.key] = 'skip';
+  majuLangkah();
+}
+
+function majuLangkah(){
+  SCAN.idx++; SCAN.hold = 0; SCAN.mulai = Date.now(); $('prog').style.width='0';
+  renderChips();
+  if (SCAN.idx >= SCAN.steps.length){ SCAN.aktif = false; clearTimeout(SCAN.timer); selesaiScan(); }
+}
+
+async function olah(res){
+  const v = $('video'), oval = $('oval');
+  const step = SCAN.steps[SCAN.idx];
+  if (!step) return;
+  const lama = Date.now() - SCAN.mulai;
+  // Pose opsional dilewati otomatis bila terlalu lama
+  if (!SCAN.absen && !step.wajib && lama > BATAS_POSE){ SCAN.hasil[step.key]='skip'; return majuLangkah(); }
+  // Tantangan absen diganti otomatis bila sulit
+  if (SCAN.absen && step.tantangan && lama > BATAS_TANTANGAN && SCAN.pool.length > 1){
+    SCAN.poolIdx = (SCAN.poolIdx + 1) % SCAN.pool.length;
+    SCAN.steps[1] = Object.assign({tantangan:true}, POSE[SCAN.pool[SCAN.poolIdx]]);
+    SCAN.mulai = Date.now(); SCAN.hold = 0; renderChips();
+    return setHint('Coba gerakan lain: ' + SCAN.steps[1].label.toLowerCase(), SCAN.steps[1].icon);
+  }
+  const tahan = () => { SCAN.hold = 0; $('prog').style.width='0'; };
+  if (!res.length){
+    tahan(); gambarKotak(null); oval.className='oval er'; if (SCAN.absen) setChk('c1','er');
+    SCAN.gagalDeteksi++;
+    return setHint(SCAN.gagalDeteksi > 40 ? 'Wajah sulit terbaca — cari tempat lebih terang & hadap ke cahaya' : 'Wajah tidak terdeteksi — posisikan wajah di dalam bingkai','ti-scan');
+  }
+  SCAN.gagalDeteksi = 0;
+  if (res.length > 1){ tahan(); gambarKotak(null); oval.className='oval er'; return setHint('Terdeteksi lebih dari satu wajah','ti-users'); }
+  const det = res[0], box = det.detection.box;
+  if (box.width < v.videoWidth*0.2){ tahan(); gambarKotak(det,false); oval.className='oval'; return setHint('Dekatkan wajah ke kamera','ti-zoom-in'); }
+  if (SCAN.absen) setChk('c1','ok');
+  const m = ukurPose(det.landmarks), e = det.expressions;
+  const b = SCAN.base || m;
+  if (step.final && !POS){ tahan(); gambarKotak(det,false); return setHint('Menunggu lokasi GPS…','ti-map-pin'); }
+  const ok = step.cek(m, b, e);
+  gambarKotak(det, ok);
+  oval.className = 'oval' + (ok ? ' ok' : '');
+  setHint(step.label, step.icon);
+  if (ok){ SCAN.hold++; $('prog').style.width = Math.min(100, SCAN.hold/HOLD*100) + '%'; } else tahan();
+  if (SCAN.hold >= HOLD) await ambilLangkah(step, m);
+}
+
+function gambarKeCanvas(src, W, H, maxW, cermin){
+  const s = Math.min(1, maxW / W);
+  const w = Math.round(W*s), h = Math.round(H*s);
+  const c = document.createElement('canvas'); c.width=w; c.height=h;
+  const x = c.getContext('2d');
+  if (cermin){ x.translate(w,0); x.scale(-1,1); }
+  x.drawImage(src,0,0,w,h); x.setTransform(1,0,0,1,0,0);
+  return {c, x, w, h, s};
+}
+function snapshot(maxW){ const v = $('video'); return gambarKeCanvas(v, v.videoWidth, v.videoHeight, maxW, true); }
+
+/** Foto profil: potong persegi di sekitar wajah dari foto senyum */
+function potongProfil(src, W, H, box, cermin){
+  const full = gambarKeCanvas(src, W, H, W, cermin);
+  const side = Math.min(W, H, Math.max(box.width, box.height) * 1.9);
+  const cx = cermin ? W - (box.x + box.width/2) : box.x + box.width/2, cy = box.y + box.height/2 - box.height*0.08;
+  const sx = Math.max(0, Math.min(W - side, cx - side/2)), sy = Math.max(0, Math.min(H - side, cy - side/2));
+  const c = document.createElement('canvas'); c.width = c.height = 360;
+  c.getContext('2d').drawImage(full.c, sx, sy, side, side, 0, 0, 360, 360);
+  return c.toDataURL('image/jpeg', 0.85);
+}
+
+async function ambilLangkah(step, m){
+  SCAN.busy = true;
+  try{
+    const enroll = !SCAN.absen;
+    if (enroll || step.final){
+      const d = await faceapi.detectSingleFace($('video'), OPT2()).withFaceLandmarks().withFaceDescriptor();
+      if (!d){ SCAN.hold = 0; return; }
+      const desc = Array.from(d.descriptor).map(x => +x.toFixed(5));
+      if (enroll){
+        SCAN.descs.push(desc);
+        SCAN.fotos.push({pose: step.key, data: snapshot(480).c.toDataURL('image/jpeg', 0.8)});
+        if (step.key === 'senyum'){ const v = $('video'); SCAN.profil = potongProfil(v, v.videoWidth, v.videoHeight, d.detection.box, true); }
+        SCAN.hasil[step.key] = 'ok';
+      } else {
+        SCAN.desc = desc;
+        const s = snapshot(1080);
+        stempel(s.x, s.w, s.h, SCAN.mode==='masuk' ? 'ABSEN MASUK WFH' : 'ABSEN PULANG WFH');
+        SCAN.foto = s.c.toDataURL('image/jpeg', 0.82);
+      }
+    }
+    if (!SCAN.base) SCAN.base = m;
+    getar();
+    majuLangkah();
+  } finally { SCAN.busy = false; }
+}
+
+function stempel(x, w, h, judul){
+  const n = new Date();
+  const tgl = `${HARI[n.getDay()]}, ${pad(n.getDate())}-${pad(n.getMonth()+1)}-${n.getFullYear()}  ${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+  const fs = Math.max(16, Math.round(w*0.032)), lh = Math.round(fs*1.38), p = Math.round(fs*0.8);
+  x.font = `500 ${fs}px 'Plus Jakarta Sans', system-ui, sans-serif`;
+  const lines = [judul, `${USER.nama} | ${USER.nip}`, tgl,
+    `Lat ${POS.lat.toFixed(6)}  Long ${POS.lng.toFixed(6)}  (±${Math.round(POS.acc)} m)`]
+    .concat(bungkus(x, ALAMAT, w - p*2).slice(0,3));
+  const bh = lines.length*lh + p*2;
+  x.fillStyle = 'rgba(11,27,54,0.72)'; x.fillRect(0, h-bh, w, bh);
+  x.fillStyle = '#22c55e'; x.fillRect(0, h-bh, Math.round(fs*0.3), bh);
+  lines.forEach((t,i) => {
+    x.fillStyle = i===0 ? '#4ade80' : '#ffffff';
+    x.font = `${i<2?700:500} ${fs}px 'Plus Jakarta Sans', system-ui, sans-serif`;
+    x.fillText(t, p, h-bh+p+fs+i*lh);
+  });
+}
+function bungkus(x, teks, maxW){
+  if (!teks) return [];
+  const out=[]; let b='';
+  teks.split(' ').forEach(k => { const u = b ? b+' '+k : k; if (x.measureText(u).width > maxW && b){ out.push(b); b=k; } else b=u; });
+  if (b) out.push(b); return out;
+}
+
+function tampilkanHasil(src){
+  $('video').classList.add('hide'); $('ov').classList.add('hide'); $('live').classList.add('hide');
+  $('oval').className = 'oval hide';
+  $('shotImg').src = src; $('shotImg').classList.remove('hide');
+}
+
+async function selesaiScan(){
+  const mode = SCAN.mode;
+  ['scSkip','btnFoto','fmInfo'].forEach(i=>$(i).classList.add('hide'));
+  if (!SCAN.absen){
+    stopScan();
+    tampilkanHasil(SCAN.profil || SCAN.fotos[0].data);
+    const n = SCAN.descs.length;
+    setHint(`Rekam wajah selesai — ${n} pose terekam`,'ti-circle-check');
+    $('scThumbs').innerHTML = SCAN.fotos.map(f=>`<img src="${f.data}" alt="${f.pose}" title="${f.pose}">`).join('');
+    $('scThumbs').classList.remove('hide');
+    $('scProfil').innerHTML = `<div class="profil-prev"><img src="${SCAN.profil}" alt=""><div><b>Foto profil</b><br>Diambil dari pose senyum</div></div>`;
+    $('scProfil').classList.remove('hide');
+    if (n < (SCAN.fotoMode ? 3 : 4)) alertBox('scMsg', `Hanya ${n} pose yang terbaca. Wajah tetap bisa dikenali, namun hasil lebih akurat bila pose kiri/kanan juga terekam (tekan Ulangi bila ingin mencoba lagi).`, 'wr');
+    const sv = $('scSave'); sv.classList.remove('hide'); $('scRetry').classList.remove('hide');
+    sv.querySelector('span').textContent = mode==='daftar' ? 'Selesaikan pendaftaran' : 'Simpan data wajah';
+    sv.onclick = simpanWajah;
+    return;
+  }
+  const pos = Object.assign({}, POS), alamat = ALAMAT;
+  stopScan();
+  tampilkanHasil(SCAN.foto);
+  setChk('c4','run'); $('verT').textContent = 'Mencocokkan wajah…';
+  setHint('Memverifikasi wajah…','ti-loader-2');
+  try{
+    const v = await api('verifikasiWajah', TOKEN, SCAN.desc);
+    if (!v.ok) throw new Error(`Wajah tidak cocok dengan data terdaftar (kecocokan ${v.skor}%). Cari tempat lebih terang, lepas masker/kacamata gelap, lalu ulangi.`);
+    setChk('c4','ok'); $('verT').textContent = `Cocok · ${v.skor}%`;
+    FORM = {mode, foto:SCAN.foto, desc:SCAN.desc, lat:pos.lat, lng:pos.lng, acc:pos.acc, alamat, skor:v.skor};
+    bukaForm();
+  }catch(e){
+    setChk('c4','er'); $('verT').textContent = 'Gagal';
+    setHint('Verifikasi gagal','ti-alert-triangle');
+    alertBox('scMsg', e.message || e); $('scRetry').classList.remove('hide');
+    cekSesi(e);
+  }
+}
+
+async function simpanWajah(){
+  const face = {descs: SCAN.descs, fotos: SCAN.fotos, profil: SCAN.profil};
+  alertBox('scMsg','');
+  load(true,'Menyimpan data wajah…');
+  try{
+    if (SCAN.mode === 'daftar'){
+      const t = await api('registerUser', REG, face);
+      $('lUser').value = REG.nip;
+      ['dNama','dNip','dJab','dEmail','dPass','dPass2'].forEach(i=>$(i).value='');
+      REG = null;
+      setTab('login'); show('vAuth'); alertBox('lMsg', t, 'ok');
+    } else {
+      const r = await api('enrollFace', TOKEN, face);
+      PROFIL = r.profil || PROFIL;
+      setHome(r.user, r.status); toast('Data wajah tersimpan. Sekarang Anda bisa absen.');
+    }
+  }catch(e){ alertBox('scMsg', e); cekSesi(e); } finally{ load(false); }
+}
+
+function batalScan(){
+  stopScan();
+  if (SCAN.mode === 'daftar'){ show('vAuth'); setTab('daftar'); } else keHome();
+}
+
+/* ================= Form rencana kerja / output kerja ================= */
+function bukaForm(){
+  const masuk = FORM.mode === 'masuk';
+  FILES = []; renderFile(); alertBox('fMsg','');
+  $('fTeks').value = '';
+  $('fShot').src = FORM.foto;
+  $('fSkor').textContent = `Wajah terverifikasi · ${FORM.skor}%`;
+  $('fLok').textContent = `${FORM.lat.toFixed(6)}, ${FORM.lng.toFixed(6)} (±${Math.round(FORM.acc)} m)` + (FORM.alamat ? ' · ' + FORM.alamat : '');
+  $('fJudul').textContent = masuk ? 'Rencana kerja hari ini' : 'Output kerja Anda hari ini';
+  $('fSub').textContent = masuk ? 'Tuliskan rencana pekerjaan yang akan Anda selesaikan hari ini.' : 'Tuliskan hasil kerja hari ini dan unggah file output-nya.';
+  $('fLabel').textContent = masuk ? 'Rencana kerja *' : 'Uraian output kerja *';
+  $('fTeks').placeholder = masuk ? '1. Menyusun laporan …\n2. Verifikasi berkas …\n3. …' : '1. Laporan … selesai disusun\n2. Berkas … telah diverifikasi\n3. …';
+  $('fFileBox').classList.toggle('hide', masuk);
+  $('fKirim').querySelector('span').textContent = masuk ? 'Kirim absen masuk' : 'Kirim absen pulang & cetak laporan';
+  show('vForm');
+}
+
+function tambahFile(){
+  Array.from($('fFiles').files).forEach(f => { if (!FILES.some(x=>x.name===f.name && x.size===f.size)) FILES.push(f); });
+  $('fFiles').value=''; renderFile();
+}
+function hapusFile(i){ FILES.splice(i,1); renderFile(); }
+function renderFile(){
+  $('fList').innerHTML = FILES.map((f,i)=>`<div class="file"><i class="ti ${/^image\//.test(f.type)?'ti-photo':'ti-file-description'}" style="color:var(--pri)"></i><b>${esc(f.name)}</b>
+    <span style="color:${f.size>10485760?'var(--er)':'var(--tx2)'}">${(f.size/1048576).toFixed(2)} MB</span>
+    <button class="x" onclick="hapusFile(${i})" aria-label="Hapus"><i class="ti ti-x"></i></button></div>`).join('');
+}
+function bacaFile(f){
+  return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res({name:f.name, type:f.type, data:r.result}); r.onerror = rej; r.readAsDataURL(f); });
+}
+/** Gambar dikecilkan (maks 1600 px) supaya ringan dan rapi di laporan */
+function kecilkanGambar(f){
+  return new Promise(res => {
+    if (!/^image\/(jpeg|png|webp|heic|heif)/.test(f.type)) return res(bacaFile(f));
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, 1600/Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth*s); c.height = Math.round(img.naturalHeight*s);
+      const x = c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(img,0,0,c.width,c.height);
+      res({name: f.name.replace(/\.[^.]+$/,'') + '.jpg', type:'image/jpeg', data: c.toDataURL('image/jpeg', 0.85)});
+    };
+    img.onerror = () => res(bacaFile(f));
+    img.src = URL.createObjectURL(f);
+  });
+}
+
+async function kirimForm(){
+  alertBox('fMsg','');
+  const teks = $('fTeks').value.trim();
+  if (teks.length < 10) return alertBox('fMsg', (FORM.mode==='masuk'?'Rencana kerja':'Uraian output kerja') + ' minimal 10 karakter.');
+  try{
+    if (FORM.mode === 'masuk'){
+      load(true,'Menyimpan absen masuk…');
+      const r = await api('absenMasuk', TOKEN, Object.assign({}, FORM, {rencana: teks}));
+      FORM = null;
+      setHome(USER, r.status);
+      toast(`Absen masuk tercatat pukul ${r.jam} · kecocokan wajah ${r.skor}%`);
+    } else {
+      if (!FILES.length) return alertBox('fMsg','Wajib unggah minimal 1 file output kerja.');
+      if (FILES.some(f=>f.size>10485760)) return alertBox('fMsg','Ada file lebih dari 10 MB.');
+      if (FILES.reduce((a,f)=>a+f.size,0) > 25*1048576) return alertBox('fMsg','Total file maksimal 25 MB.');
+      load(true,'Mengunggah output kerja…');
+      const files = await Promise.all(FILES.map(kecilkanGambar));
+      const r = await api('absenPulang', TOKEN, Object.assign({}, FORM, {uraian: teks, files}));
+      FORM = null; FILES = [];
+      setHome(USER, r.status);
+      toast(`Absen pulang tercatat pukul ${r.jam}. Menyiapkan laporan…`);
+      bukaCetak();
+    }
+  }catch(e){ alertBox('fMsg', e); cekSesi(e); } finally{ load(false); }
+}
+
+/* ================= Laporan cetak ================= */
+function bukaCetak(nip, tglIso, dari){
+  CETAK_NIP = nip || null; CETAK_DARI = dari || 'vHome';
+  $('cTgl').value = tglIso || tglHariIniIso();
+  show('vCetak');
+  muatLaporan();
+}
+function kembaliDariCetak(){ show(CETAK_DARI); }
+
+let PDFJS = null;
+function muatPdfJs(){
+  if (!PDFJS) PDFJS = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; res(); };
+    s.onerror = () => { PDFJS = null; rej(new Error('Pembaca PDF gagal dimuat.')); };
+    document.head.appendChild(s);
+  });
+  return PDFJS;
+}
+async function pdfKeGambar(b64){
+  await muatPdfJs();
+  const bin = atob(b64), bytes = new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  const doc = await pdfjsLib.getDocument({data: bytes}).promise;
+  const out = [], maks = Math.min(doc.numPages, 15);
+  for (let i=1;i<=maks;i++){
+    const pg = await doc.getPage(i);
+    const vp = pg.getViewport({scale: 1300 / pg.getViewport({scale:1}).width});
+    const c = document.createElement('canvas'); c.width = vp.width; c.height = vp.height;
+    const x = c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
+    await pg.render({canvasContext: x, viewport: vp}).promise;
+    out.push(c.toDataURL('image/jpeg', 0.85));
+  }
+  return {pages: out, total: doc.numPages};
+}
+
+function tglPanjang(tgl, hari){ const [d,m,y] = tgl.split('-'); return `${hari}, ${Number(d)} ${BLN[Number(m)-1]} ${y}`; }
+
+async function muatLaporan(){
+  alertBox('cMsg',''); $('rpt').classList.add('hide');
+  if (!$('cTgl').value) return;
+  load(true,'Menyiapkan laporan…');
+  try{
+    const L = await api('getLaporan', TOKEN, isoKeTgl($('cTgl').value), CETAK_NIP);
+    const lampiran = [];
+    for (const o of L.outputs){
+      if (o.kind === 'image') lampiran.push({name:o.name, imgs:['data:'+o.mime+';base64,'+o.data]});
+      else if (o.kind === 'pdf'){
+        try{ const r = await pdfKeGambar(o.data); lampiran.push({name:o.name, imgs:r.pages, catatan: r.total > r.pages.length ? `Menampilkan ${r.pages.length} dari ${r.total} halaman` : ''}); }
+        catch(e){ lampiran.push({name:o.name, imgs:[], catatan:'Tidak dapat ditampilkan sebagai gambar (lihat file asli di Drive).'}); }
+      } else lampiran.push({name:o.name, imgs:[], catatan:'Format file tidak dapat diubah menjadi gambar (lihat file asli di Drive).'});
+    }
+    renderLaporan(L, lampiran);
+  }catch(e){ alertBox('cMsg', e); cekSesi(e); } finally{ load(false); }
+}
+
+function renderLaporan(L, lampiran){
+  const M = L.masuk, P = L.pulang, U = L.user;
+  const wm = Array.from({length:14}, () => `<span>${esc(L.watermark)} &nbsp;•&nbsp; ${esc(L.watermark)}</span>`).join('');
+  const lok = o => `${Number(o.lat).toFixed(6)}, ${Number(o.lng).toFixed(6)} (±${o.acc} m)`;
+  const nTgl = tglPanjang(L.tgl, L.hari);
+  let no = 0;
+  const lamp = lampiran.length ? lampiran.map(a => a.imgs.length
+      ? a.imgs.map((src,i) => `<div class="lamp"><img src="${src}" alt=""><p>Lampiran ${++no}: ${esc(a.name)}${a.imgs.length>1?` — halaman ${i+1}`:''}</p></div>`).join('') + (a.catatan?`<p style="font-size:10pt;font-style:italic">${esc(a.catatan)}</p>`:'')
+      : `<div class="lamp"><p>Lampiran ${++no}: ${esc(a.name)} — ${esc(a.catatan)}</p></div>`).join('')
+    : '<p><i>Belum ada output kerja (belum absen pulang).</i></p>';
+
+  $('rpt').innerHTML = `
+    <div class="wm"><div>${wm}</div></div>
+    <div class="kop"><div class="t">${L.kop.map((k,i)=>`<div>${esc(k)}</div>`).join('')}</div></div>
+    <div class="rj">LAPORAN KEGIATAN WORK FROM HOME (WFH)</div>
+    <div class="rs">${esc(nTgl)}</div>
+    <div class="idt">
+      <table class="t">
+        <tr><td>Nama</td><td>: <b>${esc(U.nama)}</b></td></tr>
+        <tr><td>NIP</td><td>: ${esc(U.nip)}</td></tr>
+        <tr><td>Jabatan</td><td>: ${esc(U.jabatan)}</td></tr>
+        <tr><td>Jam kerja</td><td>: ${esc(M.jam.slice(0,5))} – ${P?esc(P.jam.slice(0,5))+' WIB ('+esc(P.durasi)+')':'(belum absen pulang)'}</td></tr>
+      </table>
+      ${L.profil?`<img src="${L.profil}" alt="Foto profil">`:''}
+    </div>
+    <div class="sec"><h3>I. Presensi masuk dan pulang</h3>
+      <div class="duo">
+        <figure><img src="${M.foto}" alt="Foto absen pagi"><figcaption><b>Foto absen pagi</b> — ${esc(M.jam)} WIB<br>Lokasi: ${esc(lok(M))}${M.alamat?'<br>'+esc(M.alamat):''}<br>Kecocokan wajah: ${esc(M.skor)}</figcaption></figure>
+        ${P?`<figure><img src="${P.foto}" alt="Foto absen sore"><figcaption><b>Foto absen sore</b> — ${esc(P.jam)} WIB<br>Lokasi: ${esc(lok(P))}${P.alamat?'<br>'+esc(P.alamat):''}<br>Kecocokan wajah: ${esc(P.skor)}</figcaption></figure>`
+            :'<figure style="display:grid;place-items:center;min-height:160px"><i>Belum absen pulang</i></figure>'}
+      </div>
+    </div>
+    <div class="sec"><h3>II. Rencana kerja hari ini</h3><div class="teks">${esc(M.rencana || '-')}</div></div>
+    <div class="sec"><h3>III. Output kerja harian</h3><div class="teks">${esc(P ? P.uraian : '-')}</div></div>
+    <div class="sec" style="page-break-inside:auto;break-inside:auto"><h3>IV. Lampiran output kerja</h3>${lamp}</div>
+    <div class="ttd">
+      <div>Mengetahui,<br>Atasan Langsung<div class="nm">(...................................)</div>NIP.</div>
+      <div>${esc(L.tempat)}, ${esc(nTgl.split(', ')[1])}<br>Pegawai yang bersangkutan<div class="nm">${esc(U.nama)}</div>NIP. ${esc(U.nip)}</div>
+    </div>`;
+  $('rpt').classList.remove('hide');
+}
+
+/* ================= Akun saya ================= */
+function bukaAkun(){
+  if (!USER) return;
+  setAva($('aAva'), PROFIL, USER.nama);
+  $('aNama').textContent = USER.nama;
+  $('aInfo').textContent = `${USER.jabatan} · NIP ${USER.nip}` + (USER.email ? ` · ${USER.email}` : '');
+  $('aPeran').innerHTML = `<span class="pill ${USER.peran==='Admin'?'in':'ok'}"><i class="ti ti-shield"></i>${USER.peran}</span> <span class="pill ${USER.wajah?'ok':'er'}"><i class="ti ti-face-id"></i>${USER.wajah?'Wajah terdaftar':'Wajah belum terdaftar'}</span>`;
+  ['gLama','gBaru','gBaru2'].forEach(i=>$(i).value=''); cekPw('gBaru','gHint'); alertBox('gMsg','');
+  show('vAkun');
+}
+async function gantiPw(){
+  alertBox('gMsg','');
+  const b = $('gBaru').value;
+  if (!$('gLama').value) return alertBox('gMsg','Isi password lama.');
+  if (!pwValid(b)) return alertBox('gMsg','Password baru belum memenuhi syarat.');
+  if (b !== $('gBaru2').value) return alertBox('gMsg','Ulangi password tidak sama.');
+  load(true);
+  try{ const t = await api('gantiPassword', TOKEN, $('gLama').value, b); ['gLama','gBaru','gBaru2'].forEach(i=>$(i).value=''); alertBox('gMsg', t, 'ok'); }
+  catch(e){ alertBox('gMsg', e); cekSesi(e); } finally{ load(false); }
+}
+
+/* ================= Admin ================= */
+async function bukaAdmin(){
+  show('vAdmin'); alertBox('admMsg','');
+  if (!$('admTgl').value) $('admTgl').value = tglHariIniIso();
+  load(true,'Memuat data pegawai…');
+  try{ ADM = await api('adminDaftar', TOKEN); renderAdmin(); }
+  catch(e){ alertBox('admMsg', e); cekSesi(e); } finally{ load(false); }
+}
+function renderAdmin(){
+  const q = $('admQ').value.trim().toLowerCase();
+  const list = ADM.filter(u => !q || String(u.nama).toLowerCase().includes(q) || String(u.nip).includes(q));
+  $('admList').innerHTML = list.length ? list.map(u => `
+    <div class="urow">
+      <div class="ava" style="width:44px;height:44px">${esc(inisial(u.nama))}</div>
+      <div><b>${esc(u.nama)}</b> ${u.peran==='Admin'?'<span class="pill in">Admin</span>':''}
+        <small>NIP ${esc(u.nip)} · ${esc(u.jabatan)}</small>
+        <small>${u.email?esc(u.email):'<span style="color:var(--er)">tanpa email</span>'} · ${u.wajah?'wajah terdaftar':'<span style="color:var(--wr)">wajah belum terdaftar</span>'}</small></div>
+      <div class="acts">
+        <button class="btn btn-g btn-sm" onclick="admCetak('${jsq(u.nip)}')"><i class="ti ti-printer"></i>Laporan</button>
+        <button class="btn btn-g btn-sm" onclick="admResetPw('${jsq(u.nip)}','${jsq(u.nama)}')"><i class="ti ti-key"></i>Reset password</button>
+        <button class="btn btn-er btn-sm" onclick="admResetWajah('${jsq(u.nip)}','${jsq(u.nama)}')"><i class="ti ti-face-id-error"></i>Reset wajah</button>
+        ${u.nip!==USER.nip?`<button class="btn btn-g btn-sm" onclick="admPeran('${jsq(u.nip)}','${u.peran==='Admin'?'Pegawai':'Admin'}')"><i class="ti ti-shield"></i>${u.peran==='Admin'?'Jadikan pegawai':'Jadikan admin'}</button>`:''}
+      </div>
+    </div>`).join('') : '<p class="sub">Tidak ada pegawai yang cocok.</p>';
+}
+function admCetak(nip){ bukaCetak(nip, $('admTgl').value || tglHariIniIso(), 'vAdmin'); }
+async function admResetPw(nip, nama){
+  if (!confirm(`Reset password ${nama}? Password sementara akan dibuat dan dikirim ke email pegawai.`)) return;
+  load(true);
+  try{
+    const r = await api('adminResetPassword', TOKEN, nip);
+    alertBox('admMsg', `Password sementara ${nama}: ${r.temp}` + (r.terkirim ? ` (sudah dikirim ke ${r.email})` : ' (email tidak terkirim — sampaikan langsung ke pegawai)'), 'ok');
+    window.scrollTo(0,0);
+  }catch(e){ alertBox('admMsg', e); } finally{ load(false); }
+}
+async function admResetWajah(nip, nama){
+  if (!confirm(`Reset data wajah ${nama}? Pegawai harus merekam wajah ulang.`)) return;
+  load(true);
+  try{ const t = await api('adminResetWajah', TOKEN, nip); alertBox('admMsg', t, 'ok'); ADM = await api('adminDaftar', TOKEN); renderAdmin(); window.scrollTo(0,0); }
+  catch(e){ alertBox('admMsg', e); } finally{ load(false); }
+}
+async function admPeran(nip, peran){
+  load(true);
+  try{ const t = await api('adminSetPeran', TOKEN, nip, peran); alertBox('admMsg', t, 'ok'); ADM = await api('adminDaftar', TOKEN); renderAdmin(); }
+  catch(e){ alertBox('admMsg', e); } finally{ load(false); }
+}
+
+function cekSesi(e){ if (String(e && e.message || e).includes('Sesi habis')) setTimeout(logout, 1800); }
+
+/* ================= Mulai ================= */
+(async function(){
+  const t = ambil('wfh_token');
+  if (!t) return;
+  load(true,'Memuat…');
+  try{ const r = await api('getStatus', t); TOKEN = t; PROFIL = r.profil || ''; setHome(r.user, r.status); siapkanModel().catch(()=>{}); }
+  catch(e){ store('wfh_token', null); }
+  finally{ load(false); }
+})();
+</script>
+</body>
+</html>
