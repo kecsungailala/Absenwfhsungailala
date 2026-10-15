@@ -74,6 +74,8 @@ textarea{min-height:130px;resize:vertical;line-height:1.5}
 .btn-sm{padding:8px 12px;font-size:13px;width:auto;border-radius:10px;box-shadow:none}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .btns{display:grid;gap:10px;margin-top:14px}
+.cek{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--tx2);margin:12px 0 0;cursor:pointer;line-height:1.45}
+.cek input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--pri)}
 .link{background:none;border:0;color:var(--pri);font-weight:600;cursor:pointer;padding:0;font-size:14px}
 
 .alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;font-size:14px;margin-top:12px;line-height:1.45}
@@ -213,6 +215,7 @@ table.tbl{width:100%;border-collapse:collapse;min-width:760px;font-size:14px}
   .tbl tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding:14px;border-bottom:1px solid var(--bd)}
   .tbl tr:last-child{border:0}.tbl td{border:0;padding:0}
   .tbl td:first-child{display:none}.tbl td:nth-child(2){grid-column:1/-1}
+  .tbl.aud td:first-child{display:block}.tbl.aud td:nth-child(4){grid-column:1/-1}
   .tbl td[data-l]:before{content:attr(data-l);display:block;font-size:11px;color:var(--mut);font-weight:600;margin-bottom:2px}
 }
 .tbl .num{font-variant-numeric:tabular-nums;font-weight:600}
@@ -340,6 +343,7 @@ table.t td:first-child{width:140px}
           <div class="f"><label>Ulangi password *</label><div class="inp"><i class="ti ti-lock-check"></i><input id="dPass2" type="password"></div></div>
         </div>
         <div class="hintpw" id="dHint" style="margin:-4px 0 6px"></div>
+        <label class="cek"><input type="checkbox" id="dSetuju"><span>Saya menyetujui pengumpulan dan penggunaan data foto, wajah, dan lokasi saya untuk keperluan presensi.</span></label>
         <button class="btn btn-p" style="margin-top:12px" onclick="lanjutRekam()"><i class="ti ti-camera"></i>Lanjut rekam wajah</button>
         <div id="dMsg"></div>
       </div>
@@ -370,6 +374,10 @@ table.t td:first-child{width:140px}
     <div class="card">
       <h2>Presensi hari ini</h2>
       <p class="sub">Selfie dengan verifikasi wajah dan lokasi GPS.</p>
+      <div id="pdpBox" class="alert in hide" style="margin:0 0 12px;display:block">
+        <label class="cek" style="margin:0;color:#1e3a8a"><input type="checkbox" id="pdpCek"><span>Saya menyetujui pengumpulan dan penggunaan data foto, wajah, dan lokasi saya untuk keperluan presensi.</span></label>
+        <button class="btn btn-p btn-sm" style="margin-top:10px" onclick="simpanPDP()"><i class="ti ti-check"></i>Simpan persetujuan</button>
+      </div>
       <div id="wajahWarn" class="alert wr hide" style="margin:0 0 12px"><i class="ti ti-alert-triangle"></i><div>Wajah Anda belum terdaftar. Rekam wajah dulu sebelum bisa absen.</div></div>
       <div class="btns" style="margin-top:0">
         <button id="btnEnroll" class="act hide" onclick="mulaiScan('enroll')"><div class="ic ic-w"><i class="ti ti-face-id"></i></div><div><b>Rekam wajah</b><span>Depan + senyum (wajib)</span></div><i class="ti ti-chevron-right go"></i></button>
@@ -507,6 +515,7 @@ table.t td:first-child{width:140px}
     <button data-t="bulanan" onclick="admTab('bulanan')"><i class="ti ti-calendar-month"></i> Bulanan</button>
     <button data-t="pegawai" onclick="admTab('pegawai')"><i class="ti ti-users"></i> Pegawai</button>
     <button data-t="atur" onclick="admTab('atur')"><i class="ti ti-settings"></i> Pengaturan</button>
+    <button data-t="audit" onclick="admTab('audit')"><i class="ti ti-shield-search"></i> Audit</button>
   </div>
   <div id="admMsg"></div>
 
@@ -537,6 +546,16 @@ table.t td:first-child{width:140px}
       <div class="inp" style="min-width:220px"><i class="ti ti-search"></i><input id="admQ" placeholder="Cari nama / NIP" oninput="renderPegawai()"></div>
     </div>
     <div id="admList"></div>
+  </div>
+
+  <div id="tAudit" class="card hide">
+    <div class="toolbar" style="margin-bottom:12px">
+      <div><h2 style="margin:0">Catatan aktivitas</h2><div class="sub" style="margin:0">200 aktivitas terakhir: login, login gagal, tindakan Admin, absen, dan backup</div></div>
+      <div class="sp"></div>
+      <div class="inp" style="min-width:220px"><i class="ti ti-search"></i><input id="audQ" placeholder="Cari nama / aktivitas" oninput="renderAudit()"></div>
+      <button class="btn btn-g btn-sm" onclick="muatAudit()"><i class="ti ti-refresh"></i></button>
+    </div>
+    <div class="tbl-wrap"><table class="tbl aud"><thead><tr><th>Waktu</th><th>Pegawai</th><th>Aktivitas</th><th>Detail</th></tr></thead><tbody id="audBody"></tbody></table></div>
   </div>
 
   <div id="tAtur" class="card hide">
@@ -665,8 +684,9 @@ async function login(){
   if (!$('lUser').value.trim() || !$('lPass').value) return alertBox('lMsg','Isi NIP dan password.');
   load(true,'Memeriksa akun…');
   try{
-    const r = await api('loginUser', $('lUser').value, $('lPass').value);
+    const r = await api('loginUser', $('lUser').value, $('lPass').value, infoPerangkat());
     TOKEN = r.token; store('wfh_token', TOKEN); $('lPass').value='';
+    catatAktif(); store('wfh_last', String(AKTIF));
     PROFIL = r.profil || '';
     setHome(r.user, r.status);
     pramuatWajah();
@@ -704,15 +724,43 @@ function lanjutRekam(){
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return alertBox('dMsg','Format email tidak valid.');
   if (!pwValid(d.password)) return alertBox('dMsg','Password wajib kombinasi huruf, angka, dan tanda baca (min. 8 karakter).');
   if (d.password !== $('dPass2').value) return alertBox('dMsg','Ulangi password tidak sama.');
+  if (!$('dSetuju').checked) return alertBox('dMsg','Centang persetujuan penggunaan data terlebih dahulu.');
+  d.setuju = true;
   REG = d;
   mulaiScan('daftar');
 }
 
-function logout(){
-  if (TOKEN) api('logoutUser', TOKEN).catch(()=>{});
-  TOKEN=null; USER=null; PROFIL=''; store('wfh_token', null); store('wfh_c', null); stopScan();
+function logout(pesan){
+  if (TOKEN && !pesan) api('logoutUser', TOKEN).catch(()=>{});
+  TOKEN=null; USER=null; PROFIL=''; store('wfh_token', null); store('wfh_c', null); store('wfh_last', null); stopScan();
   setTab('login'); show('vAuth');
+  if (typeof pesan === 'string') alertBox('lMsg', pesan, 'wr');
 }
+function infoPerangkat(){
+  const ua = navigator.userAgent;
+  const os = /Android/.test(ua) ? 'Android' : /iPhone|iPad/.test(ua) ? 'iOS' : /Windows/.test(ua) ? 'Windows' : /Mac/.test(ua) ? 'Mac' : /Linux/.test(ua) ? 'Linux' : 'Lainnya';
+  const br = /Edg\//.test(ua) ? 'Edge' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Browser';
+  return os + ' · ' + br;
+}
+async function simpanPDP(){
+  if (!$('pdpCek').checked) return alertBox('hMsg','Centang persetujuan terlebih dahulu.','wr');
+  load(true);
+  try{ const u = await api('setujuPDP', TOKEN); setHome(u, STATUS, true); toast('Persetujuan tersimpan.'); }
+  catch(e){ alertBox('hMsg', e); cekSesi(e); } finally{ load(false); }
+}
+
+/* ===== Logout otomatis setelah 30 menit tidak aktif ===== */
+const IDLE_MS = 30*60*1000;
+let AKTIF = Date.now();
+function catatAktif(){ AKTIF = Date.now(); }
+['click','keydown','touchstart','scroll','mousemove','input'].forEach(ev => document.addEventListener(ev, catatAktif, {passive:true}));
+setInterval(() => {
+  if (!TOKEN || !USER) return;
+  if (Date.now() - AKTIF > IDLE_MS && !(SCAN && SCAN.aktif)) return logout('Anda keluar otomatis karena tidak ada aktivitas selama 30 menit.');
+  store('wfh_last', String(AKTIF));
+}, 15000);
+/* Jaga sesi server tetap hidup selama pengguna aktif (misalnya saat mengetik laporan panjang) */
+setInterval(() => { if (TOKEN && USER && Date.now() - AKTIF < 5*60*1000) api('ping', TOKEN).catch(cekSesi); }, 5*60*1000);
 
 /* ================= Beranda ================= */
 function setHome(user, status, tetapDiHalaman){
@@ -723,6 +771,7 @@ function setHome(user, status, tetapDiHalaman){
   $('barNama').textContent = user.nama;
   $('hNama').textContent = user.nama;
   $('hInfo').textContent = [user.jabatan, 'NIP ' + user.nip].filter(Boolean).join(' · ');
+  $('pdpBox').classList.toggle('hide', user.pdp !== false);
   $('wajahWarn').classList.toggle('hide', !!user.wajah);
   $('btnEnroll').classList.toggle('hide', !!user.wajah);
   $('btnAdmin').classList.toggle('hide', user.peran !== 'Admin');
@@ -755,13 +804,13 @@ function jendela(jenis){
 }
 function perbaruiJadwal(){
   if (!STATUS) return;
-  const s = STATUS, w = !!USER.wajah;
+  const s = STATUS, w = !!USER.wajah && USER.pdp !== false;
   const jm = jendela('masuk'), jp = jendela('pulang');
   const pill = (el, j, selesai) => { el.className = 'pill ' + (selesai ? 'ok' : j.st==='buka' ? 'in' : j.st==='belum' ? 'mu' : 'er'); el.textContent = selesai ? 'Selesai' : j.st==='buka' ? 'Dibuka' : j.st==='belum' ? 'Belum dibuka' : 'Ditutup'; };
   pill($('pMasuk'), jm, !!s.masuk); pill($('pPulang'), jp, !!s.pulang);
 
   $('btnMasuk').disabled = !w || !!s.masuk || jm.st !== 'buka';
-  $('sMasuk').textContent = s.masuk ? `Tercatat pukul ${s.masuk}` : !w ? 'Rekam wajah terlebih dahulu' : jm.teks;
+  $('sMasuk').textContent = s.masuk ? `Tercatat pukul ${s.masuk}` : USER.pdp === false ? 'Centang persetujuan data terlebih dahulu' : !w ? 'Rekam wajah terlebih dahulu' : jm.teks;
   $('btnPulang').disabled = !w || !s.masuk || !!s.pulang || jp.st !== 'buka';
   $('sPulang').textContent = s.pulang ? `Tercatat pukul ${s.pulang}` : !s.masuk ? 'Absen masuk terlebih dahulu' : jp.teks;
   $('btnCetak').disabled = !s.masuk;
@@ -1177,7 +1226,7 @@ async function simpanWajah(){
     if (SCAN.mode === 'daftar'){
       const t = await api('registerUser', REG, face);
       $('lUser').value = REG.nip;
-      ['dNama','dNip','dJab','dEmail','dPass','dPass2'].forEach(i=>$(i).value='');
+      ['dNama','dNip','dJab','dEmail','dPass','dPass2'].forEach(i=>$(i).value=''); $('dSetuju').checked = false;
       REG = null;
       setTab('login'); show('vAuth'); alertBox('lMsg', t, 'ok');
     } else {
@@ -1391,12 +1440,29 @@ function bukaAdmin(){
 function admTab(t){
   TAB = t;
   document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.t===t));
-  [['harian','tHarian'],['bulanan','tBulanan'],['pegawai','tPegawai'],['atur','tAtur']].forEach(([k,id])=>$(id).classList.toggle('hide', k!==t));
+  [['harian','tHarian'],['bulanan','tBulanan'],['pegawai','tPegawai'],['atur','tAtur'],['audit','tAudit']].forEach(([k,id])=>$(id).classList.toggle('hide', k!==t));
   alertBox('admMsg','');
   if (t==='harian') muatHarian();
   if (t==='bulanan') muatBulanan();
   if (t==='pegawai') muatPegawai();
   if (t==='atur') isiAtur();
+  if (t==='audit') muatAudit();
+}
+let AUD = [];
+async function muatAudit(){
+  load(true,'Memuat catatan aktivitas…');
+  try{ AUD = await api('adminAudit', TOKEN); renderAudit(); }
+  catch(e){ alertBox('admMsg', e); cekSesi(e); } finally{ load(false); }
+}
+function renderAudit(){
+  const q = $('audQ').value.trim().toLowerCase();
+  const bahaya = /gagal|dikunci|salah|diakhiri|reset|peran/i;
+  const list = AUD.filter(r => !q || r.join(' ').toLowerCase().includes(q));
+  $('audBody').innerHTML = list.length ? list.map(r => `<tr>
+    <td class="num" data-l="Waktu">${esc(r[0])}</td>
+    <td data-l="Pegawai"><b>${esc(r[2])}</b><small>${esc(r[1])}</small></td>
+    <td data-l="Aktivitas"><span class="pill ${bahaya.test(r[3]) ? 'wr' : /Login|Absen|Daftar/.test(r[3]) ? 'in' : 'mu'}">${esc(r[3])}</span></td>
+    <td data-l="Detail" style="font-size:13px;color:var(--tx2)">${esc(r[4])}</td></tr>`).join('') : '<tr><td colspan="4" class="sub">Belum ada catatan.</td></tr>';
 }
 async function muatHarian(){
   if (!$('rhTgl').value) return;
@@ -1409,12 +1475,13 @@ async function muatHarian(){
       <div class="stat s1"><small>Hadir</small><b>${hadir.length}<span style="font-size:14px;opacity:.6">/${d.length}</span></b></div>
       <div class="stat s2"><small>Sudah pulang</small><b>${pulang.length}</b></div>
       <div class="stat s3"><small>Terlambat</small><b>${telat.length}</b></div>
-      <div class="stat s4"><small>Belum / tidak hadir</small><b>${d.length - hadir.length}</b></div>`;
+      <div class="stat s4"><small>Belum / tidak hadir</small><b>${d.length - hadir.length}</b></div>`
+      + (d.some(x=>x.catatan) ? `<div class="alert er" style="grid-column:1/-1;margin:0"><i class="ti ti-alert-triangle"></i><div>${d.filter(x=>x.catatan).length} absen ditandai ⚠ lokasi mencurigakan. Periksa foto & lokasinya lewat tombol Laporan.</div></div>` : '');
     $('rhBody').innerHTML = d.length ? d.map((x,i)=>`<tr>
       <td>${i+1}</td>
       <td><b>${esc(x.nama)}</b><small>NIP ${esc(x.nip)} · ${esc(x.jabatan)}</small></td>
       <td class="num" data-l="Jam masuk">${x.masuk ? esc(x.masuk.slice(0,5)) : '—'}</td>
-      <td data-l="Keterangan">${!x.masuk ? '<span class="pill er">Tidak hadir</span>' : x.telat>0 ? `<span class="pill wr">Terlambat ${x.telat} menit</span>` : '<span class="pill ok">Tepat waktu</span>'}</td>
+      <td data-l="Keterangan">${!x.masuk ? '<span class="pill er">Tidak hadir</span>' : x.telat>0 ? `<span class="pill wr">Terlambat ${x.telat} menit</span>` : '<span class="pill ok">Tepat waktu</span>'}${x.catatan ? `<div style="margin-top:6px"><span class="pill er" title="${esc(x.catatan)}">⚠ Periksa lokasi</span><small style="color:var(--er);margin-top:4px">${esc(x.catatan)}</small></div>` : ''}</td>
       <td class="num" data-l="Jam pulang">${x.pulang ? esc(x.pulang.slice(0,5)) : (x.masuk ? '<span class="pill mu">Belum</span>' : '—')}</td>
       <td class="num" data-l="Total jam kerja">${x.pulang ? fmtMenit(x.durasi) : '—'}</td>
       <td>${x.masuk ? `<button class="btn btn-g btn-sm" onclick="bukaCetak('${jsq(x.nip)}','${$('rhTgl').value}','vAdmin')"><i class="ti ti-printer"></i>Laporan</button>` : ''}</td>
@@ -1433,7 +1500,7 @@ async function muatBulanan(){
       <td><b>${esc(x.nama)}</b><small>NIP ${esc(x.nip)} · ${esc(x.jabatan)}</small></td>
       <td class="num" data-l="Hadir">${x.hadir}<small>${x.lengkap} lengkap</small></td>
       <td class="num" data-l="Tidak hadir">${x.tidakHadir ? `<span class="pill er">${x.tidakHadir} hari</span>` : '<span class="pill ok">0</span>'}</td>
-      <td data-l="Terlambat">${x.telatKali ? `<span class="pill wr">${x.telatKali}× · ${x.telatMenit} menit</span>` : '<span class="pill ok">Tidak pernah</span>'}</td>
+      <td data-l="Terlambat">${x.telatKali ? `<span class="pill wr">${x.telatKali}× · ${x.telatMenit} menit</span>` : '<span class="pill ok">Tidak pernah</span>'}${x.tanda ? `<div style="margin-top:6px"><span class="pill er">⚠ ${x.tanda}× lokasi</span></div>` : ''}</td>
       <td class="num" data-l="Rata-rata masuk">${esc(x.rataMasuk)}</td>
       <td class="num" data-l="Total jam kerja">${fmtMenit(x.durasi)}</td>
     </tr>`).join('') : '<tr><td colspan="7" class="sub">Belum ada data.</td></tr>';
@@ -1502,13 +1569,15 @@ async function simpanAtur(){
   }catch(e){ alertBox('aturMsg', e); } finally{ load(false); }
 }
 
-function cekSesi(e){ if (String(e && e.message || e).includes('Sesi habis')) setTimeout(logout, 1800); }
+function cekSesi(e){ const m = String(e && e.message || e); if (/Sesi (habis|berakhir)/.test(m)) setTimeout(() => logout(m), 1500); }
 
 /* ================= Mulai ================= */
 (async function(){
   tick();
   const t = ambil('wfh_token');
   if (!t) return;
+  const last = Number(ambil('wfh_last') || 0);
+  if (last && Date.now() - last > IDLE_MS){ store('wfh_token', null); store('wfh_c', null); store('wfh_last', null); alertBox('lMsg','Sesi Anda berakhir karena tidak aktif lebih dari 30 menit. Silakan masuk kembali.','wr'); return; }
   TOKEN = t;
   let c = null; try{ c = JSON.parse(ambil('wfh_c') || 'null'); }catch(e){}
   if (c && c.user && c.status){ PROFIL = c.profil || ''; setHome(c.user, Object.assign({}, c.status, {now: 0})); }
@@ -1519,7 +1588,7 @@ function cekSesi(e){ if (String(e && e.message || e).includes('Sesi habis')) set
     setHome(r.user, r.status, !!c);
     pramuatWajah();
   }catch(e){
-    if (String(e).includes('Sesi habis')){ store('wfh_token', null); store('wfh_c', null); TOKEN = null; USER = null; show('vAuth'); }
+    if (/Sesi (habis|berakhir)/.test(String(e))) logout(String(e));
     else if (c) alertBox('hMsg', e);
   }finally{ load(false); }
 })();
